@@ -17,3 +17,8 @@
 - install axios
 - CORS - install cors in backend => add middleware to app.js with configuration: origin, credentials: true
 - whenever making API call pass axios => { withCredentials: true }
+- install @reduxjs/toolkit react-redux
+- configureStore appStore -> Provider -> create a userSlice -> add reducer to store
+- add redux devtools extension
+- check redux working fine
+- login -> feed
