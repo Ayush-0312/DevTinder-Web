@@ -27,3 +27,4 @@
 
 - you should not be able to access other routes without logging
 - if token is not present, redirect to login page
+- logout
