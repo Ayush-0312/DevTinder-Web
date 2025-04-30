@@ -31,3 +31,4 @@
 - get feed and add it to store
 - UserCard on feed
 - EditProfile component
+- showToast
