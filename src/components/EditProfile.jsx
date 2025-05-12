@@ -24,7 +24,7 @@ const EditProfile = ({ user }) => {
     try {
       const res = await axios.patch(
         BASE_URL + "/profile/edit",
-        { firstName, lastName, age, about, photoUrl, skills },
+        { firstName, lastName, age, about, gender, photoUrl, skills },
         { withCredentials: true }
       );
       console.log(res);
@@ -48,7 +48,7 @@ const EditProfile = ({ user }) => {
             <div className="card-body">
               <h2 className="card-title justify-center">Edit Profile</h2>
               <div>
-                <label className="form-control w-full max-w-xs my-2">
+                <div className="form-control w-full max-w-xs my-2">
                   <div className="label">
                     <span className="label-text">First Name :</span>
                   </div>
@@ -58,9 +58,9 @@ const EditProfile = ({ user }) => {
                     className="input input-bordered w-full max-w-xs"
                     onChange={(e) => setFirstName(e.target.value)}
                   />
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
-                  <label className="form-control w-full max-w-xs my-2">
+                </div>
+                <div className="form-control w-full max-w-xs my-2">
+                  <div className="form-control w-full max-w-xs my-2">
                     <div className="label">
                       <span className="label-text">Last Name :</span>
                     </div>
@@ -70,7 +70,7 @@ const EditProfile = ({ user }) => {
                       className="input input-bordered w-full max-w-xs"
                       onChange={(e) => setLastName(e.target.value)}
                     />
-                  </label>
+                  </div>
                   <div className="label">
                     <span className="label-text">Photo URL :</span>
                   </div>
@@ -80,8 +80,8 @@ const EditProfile = ({ user }) => {
                     className="input input-bordered w-full max-w-xs"
                     onChange={(e) => setPhotoUrl(e.target.value)}
                   />
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
+                </div>
+                <div className="form-control w-full max-w-xs my-2">
                   <div className="label">
                     <span className="label-text">Age :</span>
                   </div>
@@ -91,8 +91,8 @@ const EditProfile = ({ user }) => {
                     className="input input-bordered w-full max-w-xs"
                     onChange={(e) => setAge(e.target.value)}
                   />
-                </label>
-                {/* <label className="form-control w-full max-w-xs my-2">
+                </div>
+                <div className="form-control w-full max-w-xs my-2">
                   <div className="label">
                     <span className="label-text">Gender :</span>
                   </div>
@@ -100,10 +100,10 @@ const EditProfile = ({ user }) => {
                     type="text"
                     value={gender}
                     className="input input-bordered w-full max-w-xs"
-                    onChange={(e) => setGender(e.target.value)}
+                    onChange={(e) => setGender(e.target.value.toLowerCase())}
                   />
-                </label> */}
-                <label className="form-control w-full max-w-xs my-2">
+                </div>
+                <div className="form-control w-full max-w-xs my-2">
                   <div className="label">
                     <span className="label-text">About :</span>
                   </div>
@@ -113,7 +113,7 @@ const EditProfile = ({ user }) => {
                     className="input input-bordered w-full max-w-xs"
                     onChange={(e) => setAbout(e.target.value)}
                   />
-                </label>
+                </div>
               </div>
               <p className="text-red-500">{error}</p>
               <div className="card-actions justify-center m-2">

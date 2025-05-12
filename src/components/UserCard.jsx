@@ -2,9 +2,9 @@ import React from "react";
 
 const UserCard = ({ user }) => {
   console.log(user);
+  if (!user) return;
   const { firstName, lastName, gender, age, about, skills, photoUrl } = user;
 
-  if (!user) return;
   return (
     <div className="card bg-base-300 p-4 w-96 shadow-sm">
       <figure>
@@ -12,7 +12,7 @@ const UserCard = ({ user }) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">{firstName + " " + lastName}</h2>
-        {age && gender && <p>{age + " " + gender}</p>}
+        {age && gender && <p>{age + ", " + gender}</p>}
         <p>{about}</p>
         <p>{skills?.map((skill) => skill + ", ")}</p>
         <div className="card-actions justify-center my-4">
