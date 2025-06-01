@@ -32,3 +32,8 @@
 - UserCard on feed
 - EditProfile component
 - showToast
+
+## Day 4
+
+- see all my connections
+- 
