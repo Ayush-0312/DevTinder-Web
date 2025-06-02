@@ -36,4 +36,4 @@
 ## Day 4
 
 - see all my connections
-- 
+- see all pending requests
