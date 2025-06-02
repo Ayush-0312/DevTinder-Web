@@ -37,3 +37,4 @@
 
 - see all my connections
 - see all pending requests
+- accept/reject pending request
