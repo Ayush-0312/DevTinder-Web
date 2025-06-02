@@ -29,7 +29,7 @@ const Requests = () => {
       const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
-      console.log(res?.data?.data);
+      //console.log(res?.data?.data);
       dispatch(addRequests(res?.data?.data));
     } catch (err) {
       console.log(err.message);
@@ -79,7 +79,7 @@ const Requests = () => {
             </div>
             <div>
               <button
-                className="btn btn-primary mx-2"
+                className="btn btn-primary mx-2 mb-2"
                 onClick={() => reviewRequest("rejected", request._id)}
               >
                 Reject

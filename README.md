@@ -38,3 +38,5 @@
 - see all my connections
 - see all pending requests
 - accept/reject pending request
+- ignore/interested the UserCard from Feed
+- clear the store upon logout

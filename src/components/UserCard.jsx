@@ -1,9 +1,29 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { BASE_URL } from "../utils/constants";
+import { removeUserFromFeed } from "../utils/feedSlice";
 
 const UserCard = ({ user }) => {
-  //console.log(user);
+  const dispatch = useDispatch();
+
   if (!user) return;
-  const { firstName, lastName, gender, age, about, skills, photoUrl } = user;
+
+  const { _id, firstName, lastName, gender, age, about, skills, photoUrl } =
+    user;
+
+  const handleSendRequest = async (status, userId) => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/request/send/" + status + "/" + userId,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeUserFromFeed(userId));
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <div className="card bg-base-300 p-4 w-96 shadow-sm">
@@ -16,8 +36,18 @@ const UserCard = ({ user }) => {
         <p>{about}</p>
         <p>{skills?.map((skill) => skill + ", ")}</p>
         <div className="card-actions justify-center my-4">
-          <button className="btn btn-primary">Ignore</button>
-          <button className="btn btn-secondary">Interested</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => handleSendRequest("ignored", _id)}
+          >
+            Ignore
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => handleSendRequest("interested", _id)}
+          >
+            Interested
+          </button>
         </div>
       </div>
     </div>
