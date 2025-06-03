@@ -40,3 +40,6 @@
 - accept/reject pending request
 - ignore/interested the UserCard from Feed
 - clear the store upon logout
+- handleSignUp
+- bug fixes
+- end-to-end testing

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import UserCard from "./UserCard";
 import axios from "axios";
@@ -11,7 +10,7 @@ const EditProfile = ({ user }) => {
   const [lastName, setLastName] = useState(user.lastName);
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
   const [age, setAge] = useState(user.age || "");
-  const [skills, setSkills] = useState(user?.skills || "");
+  //const [skills, setSkills] = useState(user?.skills || "");
   const [gender, setGender] = useState(user.gender || "");
   const [about, setAbout] = useState(user.about || "");
   const [error, setError] = useState("");
@@ -24,7 +23,7 @@ const EditProfile = ({ user }) => {
     try {
       const res = await axios.patch(
         BASE_URL + "/profile/edit",
-        { firstName, lastName, age, about, gender, photoUrl, skills },
+        { firstName, lastName, age, about, gender, photoUrl },
         { withCredentials: true }
       );
       //console.log(res);
@@ -34,7 +33,7 @@ const EditProfile = ({ user }) => {
         setShowToast(false);
       }, 3000);
     } catch (err) {
-      setError(err.response.data);
+      setError(err.response?.data);
     }
   };
 
@@ -125,7 +124,7 @@ const EditProfile = ({ user }) => {
           </div>
         </div>
         <UserCard
-          user={{ firstName, lastName, gender, age, about, photoUrl, skills }}
+          user={{ firstName, lastName, gender, age, about, photoUrl }}
         />
       </div>
       {showToast && (

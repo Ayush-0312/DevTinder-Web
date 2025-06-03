@@ -9,8 +9,7 @@ const UserCard = ({ user }) => {
 
   if (!user) return;
 
-  const { _id, firstName, lastName, gender, age, about, skills, photoUrl } =
-    user;
+  const { _id, firstName, lastName, gender, age, about, photoUrl } = user;
 
   const handleSendRequest = async (status, userId) => {
     try {
@@ -34,7 +33,7 @@ const UserCard = ({ user }) => {
         <h2 className="card-title">{firstName + " " + lastName}</h2>
         {age && gender && <p>{age + ", " + gender}</p>}
         <p>{about}</p>
-        <p>{skills?.map((skill) => skill + ", ")}</p>
+
         <div className="card-actions justify-center my-4">
           <button
             className="btn btn-primary"
