@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:7777";
+export const BASE_URL = "/api";
 
 export const AVATAR = "https://avatars.githubusercontent.com/u/175679849?v=4";
 
