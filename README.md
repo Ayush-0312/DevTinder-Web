@@ -43,3 +43,8 @@
 - handleSignUp
 - bug fixes
 - end-to-end testing
+
+## Real time chat using Websocket(Socket.IO)
+
+- UI for chat on "/chat/targetUserId"
+- setup socket.io in backend
