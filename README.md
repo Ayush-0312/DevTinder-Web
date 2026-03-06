@@ -1,5 +1,7 @@
 # DevTinder - Frontend
 
+## live - http://devtinder.theayushgupta.in/login
+
 ## Day 1
 
 - create a vite + react application
@@ -43,8 +45,11 @@
 - handleSignUp
 - bug fixes
 - end-to-end testing
+<<<<<<< HEAD
 
 ## Real time chat using Websocket(Socket.IO)
 
 - UI for chat on "/chat/targetUserId"
 - setup socket.io in backend
+=======
+>>>>>>> a94b26097f457460d91db3a2dfa9c207bea0d3c2
