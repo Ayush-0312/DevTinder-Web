@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
+import { motion, AnimatePresence } from "motion/react";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
@@ -11,7 +13,7 @@ const Login = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,15 +22,12 @@ const Login = () => {
     try {
       const res = await axios.post(
         BASE_URL + "/login",
-        {
-          emailId,
-          password,
-        },
+        { emailId, password },
         { withCredentials: true },
       );
 
       dispatch(addUser(res.data));
-      return navigate("/");
+      navigate("/feed");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
     }
@@ -41,74 +40,100 @@ const Login = () => {
         { firstName, lastName, emailId, password },
         { withCredentials: true },
       );
-      //console.log(res?.data);
+
       dispatch(addUser(res?.data?.data));
-      return navigate("/profile");
+      navigate("/profile");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
     }
   };
 
   return (
-    <div className="flex justify-center my-10">
-      <div className="card bg-base-300 w-96 shadow-sm">
-        <div className="card-body">
-          <h2 className="card-title text-2xl font-bold">
-            {isLoginForm ? "Login" : "Sign Up"}
-          </h2>
-          <div>
-            {!isLoginForm && (
-              <>
-                <input
-                  type="text"
-                  value={firstName}
-                  placeholder="First Name"
-                  className="input my-2"
-                  onChange={(e) => setFirstName(e?.target?.value)}
-                />
-                <input
-                  type="text"
-                  value={lastName}
-                  placeholder="Last Name"
-                  className="input my-2"
-                  onChange={(e) => setLastName(e?.target?.value)}
-                />
-              </>
-            )}
-            <input
-              type="text"
-              value={emailId}
-              placeholder="Email ID"
-              className="input my-2"
-              onChange={(e) => setEmailId(e?.target?.value)}
-            />
-            <input
-              type="password"
-              value={password}
-              placeholder="Password"
-              className="input my-2"
-              onChange={(e) => setPassword(e?.target?.value)}
-            />
-          </div>
-          <p className="text-red-500">{error}</p>
-          <p
-            className="cursor-pointer mb-2"
-            onClick={() => setIsLoginForm(!isLoginForm)}
-          >
-            {isLoginForm
-              ? "New User? Sign Up here"
-              : "Already have an account? Login here"}
+    <div className="flex justify-center items-center min-h-[70vh] px-4">
+      <motion.div
+        layout
+        transition={{ duration: 0.25 }}
+        className="w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-2xl p-8"
+      >
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold tracking-tight text-pink-600">
+            DevTinder
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            {isLoginForm ? "Welcome back" : "Create your account"}
           </p>
-          <div className="card-actions justify-center">
-            <button
-              className="btn btn-primary"
-              onClick={isLoginForm ? handleLogin : handleSignUp}
-            >
-              {isLoginForm ? "Login" : "Sign Up"}
-            </button>
-          </div>
         </div>
-      </div>
+
+        {/* Inputs */}
+        <div className="space-y-4 text-gray-600">
+          <AnimatePresence initial={false}>
+            {!isLoginForm && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.25 }}
+                className="flex gap-3 overflow-hidden"
+              >
+                <input
+                  type="text"
+                  placeholder="First name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-1/2 px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Last name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-1/2 px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={emailId}
+            onChange={(e) => setEmailId(e.target.value)}
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+          />
+        </div>
+
+        {error && (
+          <p className="text-red-500 text-sm mt-3 text-center">{error}</p>
+        )}
+
+        {/* Button */}
+        <button
+          onClick={isLoginForm ? handleLogin : handleSignUp}
+          className="w-full mt-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium py-2.5 rounded-lg hover:opacity-90 transition"
+        >
+          {isLoginForm ? "Login" : "Create Account"}
+        </button>
+
+        {/* Toggle */}
+        <p
+          className="text-sm text-gray-600 mt-4 text-center cursor-pointer hover:text-black"
+          onClick={() => setIsLoginForm(!isLoginForm)}
+        >
+          {isLoginForm
+            ? "New here? Create an account"
+            : "Already have an account? Login"}
+        </p>
+      </motion.div>
     </div>
   );
 };

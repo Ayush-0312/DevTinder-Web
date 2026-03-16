@@ -1,8 +1,7 @@
 import axios from "axios";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { BASE_URL, DEFAULT_PHOTO } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { removeFeed } from "../utils/feedSlice";
 import { removeConnections } from "../utils/connectionSlice";
@@ -16,6 +15,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+
       dispatch(removeUser());
       dispatch(removeFeed());
       dispatch(removeConnections());
@@ -27,53 +27,113 @@ const Navbar = () => {
     }
   };
 
+  const linkStyle = ({ isActive }) =>
+    `px-4 py-2 rounded-full text-sm font-medium transition ${
+      isActive ? "bg-white shadow text-black" : "text-gray-600 hover:text-black"
+    }`;
+
   return (
-    <div className="navbar bg-base-300">
-      <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">
+    <header className="sticky top-0 z-50 flex justify-center py-5 px-3">
+      <div className="flex items-center justify-between w-full max-w-4xl bg-white/80 backdrop-blur-xl border border-gray-200 shadow-lg rounded-full px-5 py-3">
+        <Link to="/" className="text-lg font-bold tracking-tight text-pink-600">
           DevTinder
         </Link>
-      </div>
-      {user && (
-        <div className="flex gap-2 items-center">
-          <p className="px-2">Welcome, {user?.firstName}</p>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar mr-4"
-            >
-              <div className="w-10 rounded-full">
-                <img alt="userPhoto" src={user?.photoUrl} />
-              </div>
+
+        {user && (
+          <>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-2">
+              <NavLink to="/feed" className={linkStyle}>
+                Discover
+              </NavLink>
+
+              <NavLink to="/connections" className={linkStyle}>
+                Connections
+              </NavLink>
+
+              <NavLink to="/requests" className={linkStyle}>
+                Requests
+              </NavLink>
+
+              <NavLink to="/profile" className={linkStyle}>
+                Profile
+              </NavLink>
+            </nav>
+
+            {/* Desktop Avatar + Logout */}
+            <div className="hidden md:flex items-center gap-3 pl-3 border-l border-gray-200">
+              <img
+                src={user?.photos[0] || DEFAULT_PHOTO}
+                alt="avatar"
+                className="w-9 h-9 rounded-full object-cover border border-gray-200"
+              />
+
+              <button
+                onClick={handleLogout}
+                className="text-sm text-gray-600 hover:text-black"
+              >
+                Logout
+              </button>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-200 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <Link to="/profile" className="justify-between">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/connections" className="justify-between">
-                  Connections
-                </Link>
-              </li>
-              <li>
-                <Link to="/requests" className="justify-between">
-                  Requests
-                </Link>
-              </li>
-              <li>
-                <a onClick={handleLogout}>Logout</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )}
-    </div>
+
+            {/* Avatar */}
+            <div className="relative md:hidden">
+              <details>
+                <summary className="list-none cursor-pointer flex items-center p-1 rounded-full hover:bg-gray-100">
+                  <img
+                    src={user?.photoUrl}
+                    alt="avatar"
+                    className="w-9 h-9 rounded-full object-cover border border-gray-200"
+                  />
+                </summary>
+
+                <div
+                  className="absolute right-0 mt-3 w-36 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden"
+                  onClick={(e) => {
+                    e.currentTarget.closest("details").removeAttribute("open");
+                  }}
+                >
+                  <Link
+                    to="/"
+                    className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
+                  >
+                    Discover
+                  </Link>
+
+                  <Link
+                    to="/connections"
+                    className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
+                  >
+                    Connections
+                  </Link>
+
+                  <Link
+                    to="/requests"
+                    className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
+                  >
+                    Requests
+                  </Link>
+
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
+                  >
+                    Profile
+                  </Link>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:text-black"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </details>
+            </div>
+          </>
+        )}
+      </div>
+    </header>
   );
 };
 

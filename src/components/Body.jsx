@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,10 +14,12 @@ const Body = () => {
 
   const fetchUser = async () => {
     if (userData) return;
+
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
+
       dispatch(addUser(res.data));
     } catch (err) {
       if (err.status === 401) {
@@ -33,10 +34,12 @@ const Body = () => {
   }, []);
 
   return (
-    <div>
+    <div className="app-bg">
       <Navbar />
-      <Outlet />
-      <Footer />
+
+      <main className="max-w-6xl mx-auto px-5 py-8">
+        <Outlet />
+      </main>
     </div>
   );
 };

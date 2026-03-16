@@ -8,3 +8,6 @@ export const LINKEDIN =
   "https://www.linkedin.com/in/ayush-gupta-41484b234?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app";
 
 export const PORTFOLIO = "https://www.theayushgupta.in/";
+
+export const DEFAULT_PHOTO =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYgizZqMv5a7Qo5ZXvwKCHeRsslPrArnCZ4g&s";
