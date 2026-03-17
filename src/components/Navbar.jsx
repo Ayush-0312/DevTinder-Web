@@ -94,7 +94,7 @@ const Navbar = () => {
                   }}
                 >
                   <Link
-                    to="/"
+                    to="/feed"
                     className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
                   >
                     Discover

@@ -23,9 +23,14 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [targetUser, setTargetUser] = useState(null);
+  const [cursor, setCursor] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const socketRef = useRef(null);
   const bottomRef = useRef(null);
+  const typingRef = useRef(null);
 
   const fetchChat = async () => {
     try {
@@ -50,6 +55,10 @@ const Chat = () => {
       }));
 
       setMessages(formattedMessages);
+
+      if (formattedMessages.length > 0) {
+        setCursor(formattedMessages[0]?.time);
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -78,6 +87,18 @@ const Chat = () => {
           time: msg.createdAt,
         },
       ]);
+    });
+
+    socketRef.current.on("userTyping", ({ userId: typingUserId }) => {
+      if (String(typingUserId) === String(userId)) return;
+
+      setIsTyping(true);
+    });
+
+    socketRef.current.on("userStoppedTyping", ({ userId: typingUserId }) => {
+      if (String(typingUserId) === String(userId)) return;
+
+      setIsTyping(false);
     });
 
     return () => socketRef.current.disconnect();
@@ -124,6 +145,54 @@ const Chat = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const fetchMore = async () => {
+    if (loading || !hasMore) return;
+
+    try {
+      setLoading(true);
+
+      const res = await axios.get(
+        `${BASE_URL}/chat/${targetUserId}?cursor=${cursor}&limit=20`,
+        { withCredentials: true },
+      );
+
+      const newMessages = res.data.messages;
+
+      if (newMessages.length === 0) {
+        setHasMore(false);
+        return;
+      }
+
+      const formatted = newMessages.map((msg) => ({
+        senderId: msg.senderId._id,
+        text: msg.text,
+        time: msg.createdAt,
+      }));
+
+      setMessages((prev) => [...formatted, ...prev]);
+
+      setCursor(formatted[0]?.time);
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTyping = (value) => {
+    setNewMessage(value);
+
+    if (!chatId || !userId) return;
+
+    socketRef.current.emit("typing", { chatId, userId });
+
+    clearTimeout(typingRef.current);
+
+    typingRef.current = setTimeout(() => {
+      socketRef.current.emit("stopTyping", { chatId, userId });
+    }, 1000);
+  };
+
   if (!chatId) {
     return (
       <div className="flex justify-center items-center h-[70vh]">
@@ -151,7 +220,22 @@ const Chat = () => {
       </div>
 
       {/* MESSAGES */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4 bg-gray-50">
+      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1 bg-gray-50">
+        {hasMore && (
+          <div className="flex justify-center">
+            <button
+              onClick={fetchMore}
+              className="text-sm px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-100 transition"
+            >
+              Load older messages
+            </button>
+          </div>
+        )}
+
+        {loading && (
+          <p className="text-center text-xs text-gray-400">Loading...</p>
+        )}
+
         {messages.map((msg, index) => {
           const isMe = String(msg.senderId) === String(userId);
 
@@ -162,23 +246,27 @@ const Chat = () => {
             >
               <div className="flex flex-col max-w-[70%]">
                 <div
-                  className={`px-2 py-2 rounded-2xl text-sm shadow ${
+                  className={`px-2 py-2 rounded-2xl text-sm shadow break-words whitespace-pre-wrap ${
                     isMe
                       ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white"
                       : "bg-white border"
                   }`}
                 >
-                  <p>{msg.text}</p>
+                  <p>
+                    {msg.text}{" "}
+                    <span className="text-[10px] opacity-60">
+                      {formatTime(msg.time)}
+                    </span>
+                  </p>
                 </div>
-                <span
-                  className={`text-[10px] opacity-60 mt-0.5 mx-1 ${isMe ? "text-right" : "text-left"}`}
-                >
-                  {formatTime(msg.time)}
-                </span>
               </div>
             </div>
           );
         })}
+
+        {isTyping && (
+          <p className="text-sm text-gray-400 px-2 pb-2">typing...</p>
+        )}
 
         <div ref={bottomRef} />
       </div>
@@ -187,7 +275,10 @@ const Chat = () => {
       <div className="flex items-center gap-2 p-3 border-t bg-white">
         <input
           value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
+          onChange={(e) => {
+            setNewMessage(e.target.value);
+            handleTyping(e.target.value);
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
