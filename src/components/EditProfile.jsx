@@ -16,6 +16,7 @@ const EditProfile = ({ user }) => {
     about: user.about || "",
     skills: user.skills?.join(", ") || "",
     github: user.github || "",
+    linkedIn: user.linkedIn || "",
     portfolio: user.portfolio || "",
     photos: user.photos || [""],
   });
@@ -103,7 +104,7 @@ const EditProfile = ({ user }) => {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto sm:px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start overflow-x-hidden">
+      <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start overflow-x-hidden">
         {/* FORM */}
         <div className="w-full bg-white border border-gray-200 text-gray-600 rounded-2xl shadow-lg p-6 space-y-4">
           <h2 className="text-xl font-semibold text-gray-800">Edit Profile</h2>
@@ -165,6 +166,13 @@ const EditProfile = ({ user }) => {
             value={form.github}
             onChange={(e) => updateField("github", e.target.value)}
             placeholder="GitHub URL"
+            className="form-input"
+          />
+
+          <input
+            value={form.linkedIn}
+            onChange={(e) => updateField("linkedIn", e.target.value)}
+            placeholder="LinkedIn URL"
             className="form-input"
           />
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import CardMock from "./CardMock";
+import Footer from "./Footer";
 
 const users = [
   {
@@ -60,7 +61,7 @@ const Landing = () => {
         >
           <Link
             to="/login"
-            className="px-6 py-3 rounded-lg bg-white text-black font-medium hover:scale-105 transition"
+            className="px-6 py-3 rounded-lg bg-white text-black font-medium hover:shadow-md transition"
           >
             Start exploring
           </Link>
@@ -68,7 +69,7 @@ const Landing = () => {
       </section>
 
       {/* CARD STACK */}
-      <section className="mt-24 flex justify-center items-center relative h-[500px]">
+      <section className="mt-24 flex justify-center items-center overflow-clip lg:overflow-visible relative h-[500px]">
         {users.map((user, i) => {
           const offset = i - active;
 
@@ -102,14 +103,16 @@ const Landing = () => {
       </section>
 
       {/* CTA */}
-      <section className="mt-24 mb-20 text-center">
+      <section className="mt-16 mb-20 text-center">
         <Link
           to="/login"
-          className="px-8 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium hover:scale-105 transition"
+          className="px-8 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium hover:shadow-md transition"
         >
-          Join devTinder
+          Join DevTinder
         </Link>
       </section>
+
+      <Footer />
     </div>
   );
 };

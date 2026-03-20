@@ -1,34 +1,53 @@
-import { AVATAR, GITHUB, LINKEDIN, PORTFOLIO } from "../utils/constants";
-import { FaLinkedin } from "react-icons/fa";
+import { GITHUB, LINKEDIN, PORTFOLIO } from "../utils/constants";
 import { FaGithub } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
-  const handleAvatarClick = () => {
-    window.open(PORTFOLIO, "_blank", "noopener,noreferrer");
-  };
-
   return (
-    <div className="fixed bottom-0 w-full flex bg-base-300 p-6 justify-between">
-      <div>
-        <span className="text-xl font-semibold">DevTinder</span>
+    <footer className="relative overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <h1 className="text-7xl md:text-[200px] font-bold tracking-normal bg-gradient-to-b from-rose-500 to-pink-500 bg-clip-text text-transparent opacity-50 select-none">
+          DevTinder
+        </h1>
       </div>
-      <div className="flex space-x-4">
-        <span className="font-semibold text-lg">Created by- Ayush Gupta</span>
-        <div onClick={handleAvatarClick}>
-          <img
-            className="w-8 rounded-xl cursor-pointer"
-            src={AVATAR}
-            alt="avatar"
-          />
+
+      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
+
+      <div className="relative max-w-6xl mx-auto px-6 sm:py-16 flex flex-col items-center gap-3 text-gray-400">
+        <p className="text-lg font-semibold text-gray-600 text-center max-w-md">
+          Meet developers worth building with.
+        </p>
+
+        <p className="text-gray-500">
+          Developed by:{" "}
+          <span
+            className="hover:underline cursor-pointer"
+            onClick={() => window.open(PORTFOLIO, "_blank")}
+          >
+            Ayush
+          </span>
+        </p>
+        <div className="flex items-center gap-6">
+          <a
+            href={GITHUB}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-500 transition"
+          >
+            <FaGithub size={20} />
+          </a>
+
+          <a
+            href={LINKEDIN}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-500 transition"
+          >
+            <FaLinkedin size={20} />
+          </a>
         </div>
-        <a href={GITHUB} target="_blank" rel="noopener noreferrer">
-          <FaGithub size={30} />
-        </a>
-        <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">
-          <FaLinkedin size={30} />
-        </a>
       </div>
-    </div>
+    </footer>
   );
 };
 

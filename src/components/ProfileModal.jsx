@@ -16,6 +16,7 @@ const ProfileModal = ({ user, onClose }) => {
     about,
     skills = [],
     github,
+    linkedIn,
     portfolio,
     photos = [],
   } = user;
@@ -118,6 +119,17 @@ const ProfileModal = ({ user, onClose }) => {
                 className="text-pink-600 hover:underline"
               >
                 GitHub
+              </a>
+            )}
+
+            {linkedIn && (
+              <a
+                href={linkedIn}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-pink-600 hover:underline"
+              >
+                LinkedIn
               </a>
             )}
 

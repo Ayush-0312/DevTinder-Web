@@ -42,7 +42,7 @@ const Connections = () => {
     );
 
   return (
-    <div className="max-w-6xl mx-auto sm:px-4 py-10">
+    <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Connections</h1>
 
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

@@ -21,6 +21,7 @@ const UserCard = ({ user }) => {
     about,
     skills = [],
     github,
+    linkedIn,
     portfolio,
     photos = [],
   } = user;
@@ -121,6 +122,17 @@ const UserCard = ({ user }) => {
               className="underline opacity-90 hover:opacity-100"
             >
               GitHub
+            </a>
+          )}
+
+          {linkedIn && (
+            <a
+              href={linkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline opacity-90 hover:opacity-100"
+            >
+              LinkedIn
             </a>
           )}
 
