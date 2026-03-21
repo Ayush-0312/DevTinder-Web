@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "motion/react";
 const UserCard = ({ user }) => {
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
+  const [swipe, setSwipe] = useState(null);
 
   if (!user) return null;
 
@@ -39,6 +40,8 @@ const UserCard = ({ user }) => {
   };
 
   const handleSendRequest = async (status, userId) => {
+    setSwipe(status);
+
     try {
       await axios.post(
         BASE_URL + "/request/send/" + status + "/" + userId,
@@ -46,14 +49,27 @@ const UserCard = ({ user }) => {
         { withCredentials: true },
       );
 
-      dispatch(removeUserFromFeed(userId));
+      setTimeout(() => {
+        dispatch(removeUserFromFeed(userId));
+      }, 50);
     } catch (err) {
       console.log(err.message);
     }
   };
 
   return (
-    <div className="relative w-full max-w-sm h-[520px] rounded-2xl overflow-hidden shadow-xl bg-white">
+    <motion.div
+      key={_id}
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+        x: swipe === "interested" ? 400 : swipe === "ignored" ? -400 : 0,
+        rotate: swipe === "interested" ? 15 : swipe === "ignored" ? -15 : 0,
+      }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="relative w-full max-w-sm h-[520px] rounded-2xl overflow-hidden shadow-xl bg-white"
+    >
       {/* Profile Image */}
       <AnimatePresence mode="wait">
         <motion.img
@@ -90,6 +106,19 @@ const UserCard = ({ user }) => {
       )}
 
       {/* Gradient */}
+      {swipe && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.8 }}
+          exit={{ opacity: 0 }}
+          className={`absolute inset-0 z-10 ${
+            swipe === "interested"
+              ? "bg-gradient-to-r from-green-400/70 to-green-600/70"
+              : "bg-gradient-to-l from-red-400/70 to-red-600/70"
+          }`}
+        />
+      )}
+
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
 
       {/* Profile Info */}
@@ -165,7 +194,7 @@ const UserCard = ({ user }) => {
           Interested
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

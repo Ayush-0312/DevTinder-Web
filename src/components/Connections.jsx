@@ -30,7 +30,10 @@ const Connections = () => {
     fetchConnections();
   }, []);
 
-  if (!connections) return null;
+  if (!connections)
+    return (
+      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-600">Loading...</div>
+    );
 
   if (connections?.length === 0)
     return (

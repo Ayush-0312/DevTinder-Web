@@ -20,6 +20,7 @@ const CardMock = ({ user, active }) => {
       <img
         src={photo}
         alt={name}
+        loading="lazy"
         className="absolute inset-0 w-full h-full object-cover"
       />
 

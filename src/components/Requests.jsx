@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addRequests, removeRequest } from "../utils/requestSlice";
 import { AnimatePresence } from "motion/react";
 import ProfileModal from "./ProfileModal";
+import toast from "react-hot-toast";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
@@ -16,14 +17,21 @@ const Requests = () => {
 
   const reviewRequest = async (status, _id) => {
     try {
-      const res = axios.post(
+      const res = await axios.post(
         `${BASE_URL}/request/review/${status}/${_id}`,
         {},
         { withCredentials: true },
       );
 
       dispatch(removeRequest(_id));
+
+      if (status === "accepted") {
+        toast.success("Connection accepted");
+      } else {
+        toast.error("Request rejected");
+      }
     } catch (err) {
+      toast.error("Something went wrong");
       console.log(err.message);
     }
   };
@@ -44,7 +52,10 @@ const Requests = () => {
     fetchRequest();
   }, []);
 
-  if (!requests) return null;
+  if (!requests)
+    return (
+      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-600">Loading...</div>
+    );
 
   if (requests.length === 0) {
     return (

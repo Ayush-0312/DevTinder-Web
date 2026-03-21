@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
@@ -221,7 +221,7 @@ const Chat = () => {
 
       {/* MESSAGES */}
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1 bg-gray-50">
-        {hasMore && (
+        {hasMore && messages.length > 0 && (
           <div className="flex justify-center">
             <button
               onClick={fetchMore}
@@ -234,6 +234,13 @@ const Chat = () => {
 
         {loading && (
           <p className="text-center text-xs text-gray-400">Loading...</p>
+        )}
+
+        {messages.length === 0 && !loading && (
+          <div className="flex flex-col justify-center items-center h-full text-gray-400 ">
+            <p className="">No messages yet</p>
+            <p className="mt-1">Start the conversation</p>
+          </div>
         )}
 
         {messages.map((msg, index) => {
@@ -300,4 +307,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default React.memo(Chat);

@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL, DEFAULT_PHOTO } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import toast from "react-hot-toast";
 
 const EditProfile = ({ user }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,6 @@ const EditProfile = ({ user }) => {
 
   const [previewForm, setPreviewForm] = useState(form);
   const [error, setError] = useState("");
-  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -82,8 +82,7 @@ const EditProfile = ({ user }) => {
 
       dispatch(addUser(res.data.data));
 
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      toast.success("Profile updated successfully");
     } catch (err) {
       setError(err.response?.data);
     }
@@ -100,7 +99,10 @@ const EditProfile = ({ user }) => {
     };
   }, [previewForm]);
 
-  if (!user) return null;
+  if (!user)
+    return (
+      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-800">Loading...</div>
+    );
 
   return (
     <>
@@ -234,12 +236,6 @@ const EditProfile = ({ user }) => {
           <UserCard user={previewUser} />
         </div>
       </div>
-
-      {showToast && (
-        <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50">
-          Profile updated successfully
-        </div>
-      )}
     </>
   );
 };

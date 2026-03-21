@@ -9,11 +9,13 @@ import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import Chat from "./components/Chat";
 import Landing from "./components/Landing";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
       <Provider store={appStore}>
+        <Toaster position="top-center" reverseOrder={false} />
         <BrowserRouter basename="/">
           <Routes>
             <Route path="/" element={<Body />}>

@@ -21,7 +21,7 @@ const Navbar = () => {
       dispatch(removeConnections());
       dispatch(clearRequests());
 
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.log(err.message);
     }
@@ -81,7 +81,7 @@ const Navbar = () => {
               <details>
                 <summary className="list-none cursor-pointer flex items-center p-1 rounded-full hover:bg-gray-100">
                   <img
-                    src={user?.photoUrl}
+                    src={user?.photos[0] || DEFAULT_PHOTO}
                     alt="avatar"
                     className="w-9 h-9 rounded-full object-cover border border-gray-200"
                   />
