@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice";
@@ -11,7 +10,7 @@ const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
 
-  const getFeed = async () => {
+  const getFeed = useCallback(async () => {
     if (feed) return;
 
     try {
@@ -19,15 +18,15 @@ const Feed = () => {
         withCredentials: true,
       });
 
-      dispatch(addFeed(res?.data));
+      dispatch(addFeed(res?.data || []));
     } catch (err) {
       console.log(err.message);
     }
-  };
+  }, [feed, dispatch]);
 
   useEffect(() => {
-    getFeed();
-  }, []);
+    if (!feed) getFeed();
+  }, [feed, getFeed]);
 
   if (!feed)
     return (
@@ -44,13 +43,11 @@ const Feed = () => {
     );
 
   return (
-    feed && (
-      <AnimatePresence mode="wait">
-        <div className="flex justify-center pt-16 sm:pt-0">
-          <UserCard key={feed[0]._id} user={feed[0]} />
-        </div>
-      </AnimatePresence>
-    )
+    <AnimatePresence mode="wait">
+      <div className="flex justify-center pt-16 sm:pt-0">
+        <UserCard key={feed[0]._id} user={feed[0]} />
+      </div>
+    </AnimatePresence>
   );
 };
 

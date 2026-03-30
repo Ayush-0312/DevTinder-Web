@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { BASE_URL, DEFAULT_PHOTO } from "../utils/constants";
 import { removeUserFromFeed } from "../utils/feedSlice";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 const UserCard = ({ user }) => {
@@ -11,7 +11,7 @@ const UserCard = ({ user }) => {
   const [index, setIndex] = useState(0);
   const [swipe, setSwipe] = useState(null);
 
-  if (!user) return null;
+  const safeUser = user || {};
 
   const {
     _id,
@@ -25,37 +25,43 @@ const UserCard = ({ user }) => {
     linkedIn,
     portfolio,
     photos = [],
-  } = user;
+  } = safeUser;
 
-  const safePhotos = photos.length ? photos : [DEFAULT_PHOTO];
+  const safePhotos = useMemo(
+    () => (photos.length ? photos : [DEFAULT_PHOTO]),
+    [photos],
+  );
 
   const photo = safePhotos[index] ?? safePhotos[0];
 
-  const nextPhoto = () => {
+  const nextPhoto = useCallback(() => {
     setIndex((prev) => (prev + 1) % safePhotos.length);
-  };
+  }, [safePhotos.length]);
 
-  const prevPhoto = () => {
+  const prevPhoto = useCallback(() => {
     setIndex((prev) => (prev === 0 ? safePhotos.length - 1 : prev - 1));
-  };
+  }, [safePhotos.length]);
 
-  const handleSendRequest = async (status, userId) => {
-    setSwipe(status);
+  const handleSendRequest = useCallback(
+    async (status, userId) => {
+      setSwipe(status);
 
-    try {
-      await axios.post(
-        BASE_URL + "/request/send/" + status + "/" + userId,
-        {},
-        { withCredentials: true },
-      );
+      try {
+        await axios.post(
+          BASE_URL + "/request/send/" + status + "/" + userId,
+          {},
+          { withCredentials: true },
+        );
 
-      setTimeout(() => {
         dispatch(removeUserFromFeed(userId));
-      }, 50);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    [dispatch],
+  );
+
+  if (!user) return null;
 
   return (
     <motion.div
@@ -78,6 +84,7 @@ const UserCard = ({ user }) => {
           alt={firstName}
           onError={(e) => (e.target.src = DEFAULT_PHOTO)}
           loading="lazy"
+          decoding="async"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

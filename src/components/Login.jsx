@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -16,12 +16,16 @@ const Login = () => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
     try {
+      setLoading(true);
+      setError("");
+
       const res = await axios.post(
         BASE_URL + "/login",
         { emailId, password },
@@ -32,23 +36,30 @@ const Login = () => {
       navigate("/feed");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [emailId, password, dispatch, navigate]);
 
-  const handleSignUp = async () => {
+  const handleSignUp = useCallback(async () => {
     try {
+      setLoading(true);
+      setError("");
+
       const res = await axios.post(
         BASE_URL + "/signup",
         { firstName, lastName, emailId, password },
         { withCredentials: true },
       );
 
-      dispatch(addUser(res?.data?.data));
+      dispatch(addUser(res?.data?.data || {}));
       navigate("/profile");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [firstName, lastName, emailId, password, dispatch, navigate]);
 
   return (
     <div className="flex justify-center items-center min-h-[70vh] px-4">
@@ -83,7 +94,7 @@ const Login = () => {
                   placeholder="First name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-1/2 px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+                  className="w-1/2 form-input"
                 />
 
                 <input
@@ -91,7 +102,7 @@ const Login = () => {
                   placeholder="Last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-1/2 px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+                  className="w-1/2 form-input"
                 />
               </motion.div>
             )}
@@ -102,7 +113,7 @@ const Login = () => {
             placeholder="Email"
             value={emailId}
             onChange={(e) => setEmailId(e.target.value)}
-            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+            className="form-input"
           />
 
           <div className="relative">
@@ -111,13 +122,13 @@ const Login = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 pr-10 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              className="form-input pr-10"
             />
 
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-gray-400 hover:text-gray-500"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-500"
             >
               {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
             </button>
@@ -130,16 +141,21 @@ const Login = () => {
 
         {/* Button */}
         <button
+          disabled={loading}
           onClick={isLoginForm ? handleLogin : handleSignUp}
           className="w-full mt-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium py-2.5 rounded-lg hover:opacity-90 transition"
         >
-          {isLoginForm ? "Login" : "Create Account"}
+          {loading
+            ? "Please wait..."
+            : isLoginForm
+              ? "Login"
+              : "Create Account"}
         </button>
 
         {/* Toggle */}
         <p
           className="text-sm text-gray-600 mt-4 text-center cursor-pointer hover:text-black"
-          onClick={() => setIsLoginForm(!isLoginForm)}
+          onClick={() => setIsLoginForm((prev) => !prev)}
         >
           {isLoginForm
             ? "New here? Create an account"

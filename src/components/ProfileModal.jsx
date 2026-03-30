@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import React, { useState } from "react";
 import { DEFAULT_PHOTO } from "../utils/constants";
 import { motion } from "motion/react";
 
@@ -63,6 +63,7 @@ const ProfileModal = ({ user, onClose }) => {
             src={photo}
             alt={firstName}
             loading="lazy"
+            decoding="async"
             className="w-full h-96 object-cover"
           />
 
@@ -150,4 +151,4 @@ const ProfileModal = ({ user, onClose }) => {
   );
 };
 
-export default ProfileModal;
+export default React.memo(ProfileModal);

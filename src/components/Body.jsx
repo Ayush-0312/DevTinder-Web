@@ -1,11 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Loader from "./Loader";
+
+const publicRoutes = ["/", "/login"];
 
 const Body = () => {
   const dispatch = useDispatch();
@@ -15,9 +17,7 @@ const Body = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const publicRoutes = ["/", "/login"];
-
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     if (userData) {
       setLoading(false);
       return;
@@ -38,19 +38,19 @@ const Body = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userData, location.pathname, navigate, dispatch]);
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   useEffect(() => {
     if (userData && location.pathname === "/login") {
       navigate("/feed");
     }
-  }, [userData, location.pathname]);
+  }, [userData, location.pathname, navigate]);
 
-  if (loading) return null;
+  if (loading) return <Loader />;
 
   return (
     <div className="app-bg">

@@ -6,13 +6,18 @@ import { removeUser } from "../utils/userSlice";
 import { removeFeed } from "../utils/feedSlice";
 import { removeConnections } from "../utils/connectionSlice";
 import { clearRequests } from "../utils/requestSlice";
+import { useCallback, useState } from "react";
 
 const Navbar = () => {
-  const user = useSelector((store) => store.user);
+  const photo = useSelector((store) => store.user?.photos?.[0]);
+  const isLoggedIn = useSelector((store) => !!store.user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const [open, setOpen] = useState(false);
+
+  const handleLogout = useCallback(async () => {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
 
@@ -25,12 +30,17 @@ const Navbar = () => {
     } catch (err) {
       console.log(err.message);
     }
-  };
+  }, [dispatch, navigate]);
 
-  const linkStyle = ({ isActive }) =>
-    `px-4 py-2 rounded-full text-sm font-medium transition ${
-      isActive ? "bg-white shadow text-black" : "text-gray-600 hover:text-black"
-    }`;
+  const linkStyle = useCallback(
+    ({ isActive }) =>
+      `px-4 py-2 rounded-full text-sm font-medium transition ${
+        isActive
+          ? "bg-white shadow text-black"
+          : "text-gray-600 hover:text-black"
+      }`,
+    [],
+  );
 
   return (
     <header className="sticky top-0 z-50 flex justify-center py-5 px-3">
@@ -39,7 +49,7 @@ const Navbar = () => {
           DevTinder
         </Link>
 
-        {user && (
+        {isLoggedIn && (
           <>
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-2">
@@ -63,8 +73,10 @@ const Navbar = () => {
             {/* Desktop Avatar + Logout */}
             <div className="hidden md:flex items-center gap-3 pl-3 border-l border-gray-200">
               <img
-                src={user?.photos[0] || DEFAULT_PHOTO}
+                src={photo || DEFAULT_PHOTO}
                 alt="avatar"
+                loading="lazy"
+                decoding="async"
                 className="w-9 h-9 rounded-full object-cover border border-gray-200"
               />
 
@@ -78,23 +90,24 @@ const Navbar = () => {
 
             {/* Avatar */}
             <div className="relative md:hidden">
-              <details>
-                <summary className="list-none cursor-pointer flex items-center p-1 rounded-full hover:bg-gray-100">
-                  <img
-                    src={user?.photos[0] || DEFAULT_PHOTO}
-                    alt="avatar"
-                    className="w-9 h-9 rounded-full object-cover border border-gray-200"
-                  />
-                </summary>
+              <button
+                onClick={() => setOpen((prev) => !prev)}
+                className="flex items-center p-1 rounded-full hover:bg-gray-100"
+              >
+                <img
+                  src={photo || DEFAULT_PHOTO}
+                  alt="avatar"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-9 h-9 rounded-full object-cover border border-gray-200"
+                />
+              </button>
 
-                <div
-                  className="absolute right-0 mt-3 w-36 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden"
-                  onClick={(e) => {
-                    e.currentTarget.closest("details").removeAttribute("open");
-                  }}
-                >
+              {open && (
+                <div className="absolute right-0 mt-3 w-36 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
                   <Link
                     to="/feed"
+                    onClick={() => setOpen(false)}
                     className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
                   >
                     Discover
@@ -102,6 +115,7 @@ const Navbar = () => {
 
                   <Link
                     to="/connections"
+                    onClick={() => setOpen(false)}
                     className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
                   >
                     Connections
@@ -109,6 +123,7 @@ const Navbar = () => {
 
                   <Link
                     to="/requests"
+                    onClick={() => setOpen(false)}
                     className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
                   >
                     Requests
@@ -116,19 +131,23 @@ const Navbar = () => {
 
                   <Link
                     to="/profile"
+                    onClick={() => setOpen(false)}
                     className="block px-4 py-2 text-sm text-gray-600 hover:text-black"
                   >
                     Profile
                   </Link>
 
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      setOpen(false);
+                      handleLogout();
+                    }}
                     className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:text-black"
                   >
                     Logout
                   </button>
                 </div>
-              </details>
+              )}
             </div>
           </>
         )}

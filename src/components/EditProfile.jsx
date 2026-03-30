@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import UserCard from "./UserCard";
 import axios from "axios";
 import { BASE_URL, DEFAULT_PHOTO } from "../utils/constants";
@@ -22,34 +22,25 @@ const EditProfile = ({ user }) => {
     photos: user.photos || [""],
   });
 
-  const [previewForm, setPreviewForm] = useState(form);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setPreviewForm(form);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [form]);
-
-  const updateField = (field, value) => {
+  const updateField = useCallback((field, value) => {
     setForm((prev) => ({
       ...prev,
       [field]: value,
     }));
-  };
+  }, []);
 
-  const updatePhoto = (index, value) => {
+  const updatePhoto = useCallback((index, value) => {
     setForm((prev) => {
       const updated = [...prev.photos];
       updated[index] = value;
 
       return { ...prev, photos: updated };
     });
-  };
+  }, []);
 
-  const addPhoto = () => {
+  const addPhoto = useCallback(() => {
     setForm((prev) => {
       if (prev.photos.length >= 5) return prev;
 
@@ -58,16 +49,16 @@ const EditProfile = ({ user }) => {
         photos: [...prev.photos, ""],
       };
     });
-  };
+  }, []);
 
-  const removePhoto = (index) => {
+  const removePhoto = useCallback((index) => {
     setForm((prev) => ({
       ...prev,
       photos: prev.photos.filter((_, i) => i !== index),
     }));
-  };
+  }, []);
 
-  const saveProfile = async () => {
+  const saveProfile = useCallback(async () => {
     try {
       setError("");
 
@@ -80,28 +71,30 @@ const EditProfile = ({ user }) => {
         withCredentials: true,
       });
 
-      dispatch(addUser(res.data.data));
+      dispatch(addUser(res?.data?.data || []));
 
       toast.success("Profile updated successfully");
     } catch (err) {
       setError(err.response?.data);
     }
-  };
+  }, [form, dispatch]);
 
   const previewUser = useMemo(() => {
     return {
-      ...previewForm,
-      photos: previewForm.photos.length ? previewForm.photos : [DEFAULT_PHOTO],
-      skills: previewForm.skills
+      ...form,
+      photos: form.photos.length ? form.photos : [DEFAULT_PHOTO],
+      skills: form.skills
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean),
     };
-  }, [previewForm]);
+  }, [form]);
 
   if (!user)
     return (
-      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-800">Loading...</div>
+      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-800">
+        Loading...
+      </div>
     );
 
   return (
@@ -195,6 +188,7 @@ const EditProfile = ({ user }) => {
                   src={photo || DEFAULT_PHOTO}
                   alt="preview"
                   loading="lazy"
+                  decoding="async"
                   className="w-14 h-14 rounded-lg object-cover border"
                 />
                 <input

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 
 const CardMock = ({ user, active }) => {
@@ -21,6 +22,7 @@ const CardMock = ({ user, active }) => {
         src={photo}
         alt={name}
         loading="lazy"
+        decoding="async"
         className="absolute inset-0 w-full h-full object-cover"
       />
 

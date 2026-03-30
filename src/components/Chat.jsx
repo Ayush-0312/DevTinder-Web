@@ -207,6 +207,8 @@ const Chat = () => {
       <div className="flex items-center gap-3 px-4 py-3 border-b bg-white">
         <img
           src={targetUser?.photos?.[0] || DEFAULT_PHOTO}
+          loading="lazy"
+          decoding="async"
           className="w-10 h-10 rounded-full object-cover"
         />
 
