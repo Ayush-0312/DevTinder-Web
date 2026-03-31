@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
@@ -32,7 +31,7 @@ const Chat = () => {
   const bottomRef = useRef(null);
   const typingRef = useRef(null);
 
-  const fetchChat = async () => {
+  const fetchChat = useCallback(async () => {
     try {
       const res = await axios.get(BASE_URL + "/chat/" + targetUserId, {
         withCredentials: true,
@@ -48,35 +47,32 @@ const Chat = () => {
 
       setTargetUser(otherUser);
 
-      const formattedMessages = messages.map((msg) => ({
+      const formatted = messages.map((msg) => ({
         senderId: msg.senderId._id,
         text: msg.text,
         time: msg.createdAt,
       }));
 
-      setMessages(formattedMessages);
+      setMessages(formatted);
 
-      if (formattedMessages.length > 0) {
-        setCursor(formattedMessages[0]?.time);
+      if (formatted.length > 0) {
+        setCursor(formatted[0]?.time);
       }
     } catch (error) {
       console.log(error.message);
     }
-  };
+  }, [targetUserId, userId]);
 
   useEffect(() => {
     if (!userId) return;
     fetchChat();
-  }, [targetUserId, userId]);
+  }, [fetchChat, userId]);
 
   useEffect(() => {
-    socketRef.current = createSocketConnection();
+    const socket = createSocketConnection();
+    socketRef.current = socket;
 
-    socketRef.current.on("connect", () => {
-      // console.log("Socket connected:", socketRef.current.id);
-    });
-
-    socketRef.current.on("messageReceived", (msg) => {
+    socket.on("messageReceived", (msg) => {
       if (String(msg.senderId) === String(userId)) return;
 
       setMessages((prev) => [
@@ -89,20 +85,20 @@ const Chat = () => {
       ]);
     });
 
-    socketRef.current.on("userTyping", ({ userId: typingUserId }) => {
+    socket.on("userTyping", ({ userId: typingUserId }) => {
       if (String(typingUserId) === String(userId)) return;
 
       setIsTyping(true);
     });
 
-    socketRef.current.on("userStoppedTyping", ({ userId: typingUserId }) => {
+    socket.on("userStoppedTyping", ({ userId: typingUserId }) => {
       if (String(typingUserId) === String(userId)) return;
 
       setIsTyping(false);
     });
 
-    return () => socketRef.current.disconnect();
-  }, []);
+    return () => socket.disconnect();
+  }, [userId]);
 
   useEffect(() => {
     if (!chatId) return;
@@ -119,7 +115,7 @@ const Chat = () => {
     }
   }, [chatId]);
 
-  const sendMessage = () => {
+  const sendMessage = useCallback(() => {
     if (!newMessage.trim()) return;
     if (!chatId || !socketRef.current) return;
 
@@ -139,13 +135,13 @@ const Chat = () => {
     ]);
 
     setNewMessage("");
-  };
+  }, [newMessage, chatId, userId]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const fetchMore = async () => {
+  const fetchMore = useCallback(async () => {
     if (loading || !hasMore) return;
 
     try {
@@ -170,28 +166,34 @@ const Chat = () => {
       }));
 
       setMessages((prev) => [...formatted, ...prev]);
-
       setCursor(formatted[0]?.time);
     } catch (err) {
       console.log(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, [cursor, hasMore, loading, targetUserId]);
 
-  const handleTyping = (value) => {
-    setNewMessage(value);
+  const handleTyping = useCallback(
+    (value) => {
+      setNewMessage(value);
 
-    if (!chatId || !userId) return;
+      if (!chatId || !userId) return;
 
-    socketRef.current.emit("typing", { chatId, userId });
+      socketRef.current.emit("typing", { chatId, userId });
 
-    clearTimeout(typingRef.current);
+      clearTimeout(typingRef.current);
 
-    typingRef.current = setTimeout(() => {
-      socketRef.current.emit("stopTyping", { chatId, userId });
-    }, 1000);
-  };
+      typingRef.current = setTimeout(() => {
+        socketRef.current.emit("stopTyping", { chatId, userId });
+      }, 1000);
+    },
+    [chatId, userId],
+  );
+
+  useEffect(() => {
+    return () => clearTimeout(typingRef.current);
+  }, []);
 
   if (!chatId) {
     return (
@@ -212,13 +214,11 @@ const Chat = () => {
           className="w-10 h-10 rounded-full object-cover"
         />
 
-        <div className="flex flex-col">
-          <span className="font-medium text-gray-800">
-            {targetUser
-              ? `${targetUser.firstName} ${targetUser?.lastName}`
-              : "Chat"}
-          </span>
-        </div>
+        <span className="font-medium text-gray-800">
+          {targetUser
+            ? `${targetUser.firstName} ${targetUser?.lastName}`
+            : "Chat"}
+        </span>
       </div>
 
       {/* MESSAGES */}
