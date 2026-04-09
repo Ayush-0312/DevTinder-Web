@@ -6,7 +6,7 @@ import { removeUserFromFeed } from "../utils/feedSlice";
 import React, { useCallback, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, mode = "default" }) => {
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
   const [swipe, setSwipe] = useState(null);
@@ -67,12 +67,17 @@ const UserCard = ({ user }) => {
     <motion.div
       key={_id}
       initial={{ scale: 0.95, opacity: 0 }}
-      animate={{
-        scale: 1,
-        opacity: 1,
-        x: swipe === "interested" ? 400 : swipe === "ignored" ? -400 : 0,
-        rotate: swipe === "interested" ? 15 : swipe === "ignored" ? -15 : 0,
-      }}
+      animate={
+        mode === "preview" && "pointer-events-none"
+          ? { scale: 1, opacity: 1 }
+          : {
+              scale: 1,
+              opacity: 1,
+              x: swipe === "interested" ? 400 : swipe === "ignored" ? -400 : 0,
+              rotate:
+                swipe === "interested" ? 15 : swipe === "ignored" ? -15 : 0,
+            }
+      }
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className="relative w-full max-w-sm h-[520px] rounded-2xl overflow-hidden shadow-xl bg-white"
     >
@@ -186,21 +191,23 @@ const UserCard = ({ user }) => {
       </div>
 
       {/* Actions */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-6">
-        <button
-          onClick={() => handleSendRequest("ignored", _id)}
-          className="px-6 py-2 rounded-full border border-white text-white backdrop-blur-md hover:bg-white hover:text-black transition"
-        >
-          Ignore
-        </button>
+      {mode === "default" && (
+        <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-6">
+          <button
+            onClick={() => handleSendRequest("ignored", _id)}
+            className="px-6 py-2 rounded-full border border-white text-white backdrop-blur-md hover:bg-white hover:text-black transition"
+          >
+            Ignore
+          </button>
 
-        <button
-          onClick={() => handleSendRequest("interested", _id)}
-          className="px-6 py-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:opacity-90 transition"
-        >
-          Interested
-        </button>
-      </div>
+          <button
+            onClick={() => handleSendRequest("interested", _id)}
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:opacity-90 transition"
+          >
+            Interested
+          </button>
+        </div>
+      )}
     </motion.div>
   );
 };

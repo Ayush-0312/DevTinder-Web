@@ -227,7 +227,7 @@ const EditProfile = ({ user }) => {
 
         {/* PREVIEW */}
         <div className="flex justify-center lg:sticky">
-          <UserCard user={previewUser} />
+          <UserCard user={previewUser} mode="preview" />
         </div>
       </div>
     </>
