@@ -55,8 +55,8 @@ const Chat = () => {
 
       setMessages(formatted);
 
-      if (formatted.length > 0) {
-        setCursor(formatted[0]?.time);
+      if (formatted.length > 0 && formatted[0]?.time) {
+        setCursor(new Date(formatted[0]?.time).toISOString());
       }
     } catch (error) {
       console.log(error.message);
@@ -122,14 +122,14 @@ const Chat = () => {
     socketRef.current?.emit("sendMessage", {
       chatId,
       senderId: userId,
-      text: newMessage,
+      text: newMessage.trim(),
     });
 
     setMessages((prev) => [
       ...prev,
       {
         senderId: userId,
-        text: newMessage,
+        text: newMessage.trim(),
         time: new Date(),
       },
     ]);
@@ -166,7 +166,7 @@ const Chat = () => {
       }));
 
       setMessages((prev) => [...formatted, ...prev]);
-      setCursor(formatted[0]?.time);
+      setCursor(new Date(formatted[0]?.time).toISOString());
     } catch (err) {
       console.log(err.message);
     } finally {
@@ -245,12 +245,12 @@ const Chat = () => {
           </div>
         )}
 
-        {messages.map((msg, index) => {
+        {messages.map((msg) => {
           const isMe = String(msg.senderId) === String(userId);
 
           return (
             <div
-              key={index}
+              key={msg?.time + msg?.senderId}
               className={`flex ${isMe ? "justify-end" : "justify-start"}`}
             >
               <div className="flex flex-col max-w-[70%]">
