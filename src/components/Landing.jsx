@@ -95,6 +95,16 @@ const Landing = () => {
         })}
       </section>
 
+      <section className="pt-16 text-center">
+        <h2 className="text-3xl font-semibold">Why DevTinder?</h2>
+
+        <ul className="mt-8 text-gray-600">
+          <li>💠 Discover developers with similar interests</li>
+          <li>💠 Build real-world projects together</li>
+          <li>💠 Grow your network and skills</li>
+        </ul>
+      </section>
+
       {/* SUBTEXT */}
       <section className="mt-20 text-center px-6">
         <p className="text-gray-500 text-2xl font-semibold">

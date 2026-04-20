@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Block private/auth pages
+Disallow: /feed
+Disallow: /chat
+Disallow: /connections
+Disallow: /requests
+Disallow: /profile
+
+Sitemap: https://devtinder.theayushgupta.in/sitemap.xml
