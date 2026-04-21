@@ -7,6 +7,7 @@ import { removeFeed } from "../utils/feedSlice";
 import { removeConnections } from "../utils/connectionSlice";
 import { clearRequests } from "../utils/requestSlice";
 import { useCallback, useState } from "react";
+import logo from "/logo.png";
 
 const Navbar = () => {
   const photo = useSelector((store) => store.user?.photos?.[0]);
@@ -45,7 +46,17 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 flex justify-center py-5 px-3">
       <div className="flex items-center justify-between w-full max-w-4xl bg-white/80 backdrop-blur-xl border border-gray-200 shadow-lg rounded-full px-5 py-3">
-        <Link to="/" className="text-lg font-bold tracking-tight text-pink-600">
+        <Link
+          to="/"
+          className="text-lg font-bold flex items-center gap-1 tracking-tight text-pink-600 group"
+        >
+          <img
+            src={logo}
+            alt="logo"
+            loading="lazy"
+            decoding="async"
+            className="w-5 h-5 rounded-full group-hover:animate-pulse"
+          />
           DevTinder
         </Link>
 
