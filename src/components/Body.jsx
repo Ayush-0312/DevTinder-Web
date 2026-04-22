@@ -53,7 +53,7 @@ const Body = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="app-bg">
+    <div className="app-bg dark:bg-gray-900 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-6xl mx-auto sm:px-5 px-0 py-8">

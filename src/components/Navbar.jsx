@@ -17,6 +17,23 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
+  const [isDark, setIsDark] = useState(
+    localStorage.getItem("theme") === "dark",
+  );
+
+  const toggleTheme = () => {
+    const newTheme = !isDark;
+
+    setIsDark(newTheme);
+
+    if (newTheme) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   const handleLogout = useCallback(async () => {
     try {
@@ -61,46 +78,59 @@ const Navbar = () => {
         </Link>
 
         {isLoggedIn && (
-          <>
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-2">
-              <NavLink to="/feed" className={linkStyle}>
-                Discover
-              </NavLink>
+          <nav className="hidden md:flex items-center gap-2">
+            <NavLink to="/feed" className={linkStyle}>
+              Discover
+            </NavLink>
 
-              <NavLink to="/connections" className={linkStyle}>
-                Connections
-              </NavLink>
+            <NavLink to="/connections" className={linkStyle}>
+              Connections
+            </NavLink>
 
-              <NavLink to="/requests" className={linkStyle}>
-                Requests
-              </NavLink>
+            <NavLink to="/requests" className={linkStyle}>
+              Requests
+            </NavLink>
 
-              <NavLink to="/profile" className={linkStyle}>
-                Profile
-              </NavLink>
-            </nav>
+            <NavLink to="/profile" className={linkStyle}>
+              Profile
+            </NavLink>
+          </nav>
+        )}
 
-            {/* Desktop Avatar + Logout */}
-            <div className="hidden md:flex items-center gap-3 pl-3 border-l border-gray-200">
-              <img
-                src={photo || DEFAULT_PHOTO}
-                alt="avatar"
-                loading="lazy"
-                decoding="async"
-                className="w-9 h-9 rounded-full object-cover border border-gray-200"
-              />
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="text-sm px-3 py-1 rounded-full border border-gray-300 dark:border-gray-600"
+          >
+            {isDark ? "☀️" : "🌙"}
+          </button>
 
-              <button
-                onClick={handleLogout}
-                className="text-sm text-gray-600 hover:text-black"
-              >
-                Logout
-              </button>
-            </div>
+          {/* Desktop Avatar + Logout */}
+          <div className="hidden md:flex items-center gap-3 pl-3 border-l border-gray-200">
+            {isLoggedIn && (
+              <>
+                <img
+                  src={photo || DEFAULT_PHOTO}
+                  alt="avatar"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-9 h-9 rounded-full object-cover border border-gray-200"
+                />
+                <button
+                  onClick={handleLogout}
+                  className="text-sm text-gray-600 hover:text-black"
+                >
+                  Logout
+                </button>{" "}
+              </>
+            )}
+          </div>
+        </div>
 
-            {/* Avatar */}
-            <div className="relative md:hidden">
+        {/* Avatar */}
+        <div className="relative md:hidden">
+          {isLoggedIn && (
+            <>
               <button
                 onClick={() => setOpen((prev) => !prev)}
                 className="flex items-center p-1 rounded-full hover:bg-gray-100"
@@ -159,9 +189,9 @@ const Navbar = () => {
                   </button>
                 </div>
               )}
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </header>
   );
