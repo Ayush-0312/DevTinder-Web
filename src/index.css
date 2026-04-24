@@ -70,10 +70,21 @@ details summary::-webkit-details-marker {
   width: 100%;
   border: 1px solid #e5e7eb;
   background: white;
+  color: #111827;
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 14px;
   outline: none;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+.dark .form-input {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .form-input:focus {

@@ -74,24 +74,28 @@ const Requests = () => {
 
   if (!requests)
     return (
-      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-600">
-        Loading...
+      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-600 dark:text-gray-400">
+        Loading Requests...
       </div>
     );
 
   if (requests.length === 0) {
     return (
-      <div className="flex justify-center py-20">
-        <h1 className="text-2xl font-semibold text-gray-600">
+      <div className="flex flex-col justify-center items-center py-20 text-center">
+        <h1 className="text-2xl font-semibold text-gray-600 dark:text-gray-400">
           No requests yet
         </h1>
+
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
+          When someone sends you a request, it will appear here.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">
+    <div className="max-w-6xl mx-auto px-4 transition-colors duration-300">
+      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-8">
         Connection Requests
       </h1>
 

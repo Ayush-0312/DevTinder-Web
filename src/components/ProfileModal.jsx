@@ -34,12 +34,12 @@ const ProfileModal = ({ user, onClose }) => {
 
   return (
     <motion.div
-      onClick={onclose}
+      onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
     >
       <motion.div
         onClick={(e) => e.stopPropagation()}
@@ -47,7 +47,7 @@ const ProfileModal = ({ user, onClose }) => {
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.9, y: 20, opacity: 0 }}
         transition={{ duration: 0.25 }}
-        className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden relative"
+        className="bg-gray-50 dark:bg-black/50 backdrop-blur-xl border border-gray-500 dark:border-white/10 rounded-2xl shadow-xl w-full max-w-md overflow-hidden relative"
       >
         {/* Close */}
         <button
@@ -93,22 +93,26 @@ const ProfileModal = ({ user, onClose }) => {
 
         {/* Content */}
         <div className="p-3 space-y-1 overscroll-y-auto">
-          <h2 className="text-xl font-semibold text-gray-700">
+          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300">
             {firstName} {lastName}
           </h2>
 
           {age && gender && (
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {age} • {gender}
             </p>
           )}
 
           {skills.length > 0 && (
-            <p className="text-sm text-gray-500">{skills.join(" • ")}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {skills.join(" • ")}
+            </p>
           )}
 
           {about && (
-            <p className="text-sm text-gray-700 leading-relaxed">{about}</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+              {about}
+            </p>
           )}
 
           <div className="flex gap-4 text-sm pt-2">

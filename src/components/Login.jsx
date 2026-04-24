@@ -66,20 +66,20 @@ const Login = () => {
       <motion.div
         layout
         transition={{ duration: 0.25 }}
-        className="w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-2xl p-8"
+        className="w-full max-w-md bg-gray-50 dark:bg-white/5 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl dark:shadow-black/50 p-5 md:p-8 transition-colors duration-300"
       >
         {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold tracking-tight text-pink-600">
             DevTinder
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
             {isLoginForm ? "Welcome back" : "Create your account"}
           </p>
         </div>
 
         {/* Inputs */}
-        <div className="space-y-4 text-gray-600">
+        <div className="space-y-4 text-gray-600 dark:text-gray-400">
           <AnimatePresence initial={false}>
             {!isLoginForm && (
               <motion.div
@@ -143,7 +143,7 @@ const Login = () => {
         <button
           disabled={loading}
           onClick={isLoginForm ? handleLogin : handleSignUp}
-          className="w-full mt-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium py-2.5 rounded-lg hover:opacity-90 transition"
+          className="w-full mt-6 bg-gradient-to-r from-pink-500 to-rose-500 dark:from-pink-700 dark:to-rose-700 text-gray-50 font-medium py-2.5 rounded-lg hover:animate-pulse transition-all duration-300"
         >
           {loading
             ? "Please wait..."
@@ -154,7 +154,7 @@ const Login = () => {
 
         {/* Toggle */}
         <p
-          className="text-sm text-gray-600 mt-4 text-center cursor-pointer hover:text-black"
+          className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center cursor-pointer hover:text-black dark:hover:text-gray-300"
           onClick={() => setIsLoginForm((prev) => !prev)}
         >
           {isLoginForm

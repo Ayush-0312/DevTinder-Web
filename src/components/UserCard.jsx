@@ -68,7 +68,7 @@ const UserCard = ({ user, mode = "default" }) => {
       key={_id}
       initial={{ scale: 0.95, opacity: 0 }}
       animate={
-        mode === "preview" && "pointer-events-none"
+        mode === "preview"
           ? { scale: 1, opacity: 1 }
           : {
               scale: 1,
@@ -79,7 +79,7 @@ const UserCard = ({ user, mode = "default" }) => {
             }
       }
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="relative w-full max-w-sm h-[520px] rounded-2xl overflow-hidden shadow-xl bg-white"
+      className="relative w-full max-w-sm h-[520px] rounded-2xl overflow-hidden bg-white dark:bg-gray-950/80 backdrop-blur-xl border border-gray-200 dark:border-white/10 shadow-xl dark:shadow-black/50 transition-colors duration-300"
     >
       {/* Profile Image */}
       <AnimatePresence mode="wait">
@@ -110,7 +110,9 @@ const UserCard = ({ user, mode = "default" }) => {
             <div
               key={i}
               className={`h-1 flex-1 rounded-full transition-all duration-150 ${
-                i === index ? "bg-white scale-x-100" : "bg-white/40 scale-x-90"
+                i === index
+                  ? "bg-white/90 dark:bg-white scale-x-100"
+                  : "bg-white/30 scale-x-90"
               }`}
             />
           ))}
@@ -195,14 +197,14 @@ const UserCard = ({ user, mode = "default" }) => {
         <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-6">
           <button
             onClick={() => handleSendRequest("ignored", _id)}
-            className="px-6 py-2 rounded-full border border-white text-white backdrop-blur-md hover:bg-white hover:text-black transition"
+            className="px-6 py-2 rounded-full border border-white/30 text-white backdrop-blur-md hover:bg-gray-50 hover:text-black hover:animate-pulse transition-all duration-300"
           >
             Ignore
           </button>
 
           <button
             onClick={() => handleSendRequest("interested", _id)}
-            className="px-6 py-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:opacity-90 transition"
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-pink-600 to-rose-600 dark:from-pink-700 dark:to-rose-700 hover:animate-pulse text-gray-50 transition-all duration-300"
           >
             Interested
           </button>

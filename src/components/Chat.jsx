@@ -204,9 +204,9 @@ const Chat = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto h-[75vh] flex flex-col rounded-xl overflow-hidden bg-white text-gray-600 shadow-lg">
+    <div className="max-w-3xl mx-auto h-[75vh] flex flex-col rounded-xl overflow-hidden bg-gray-50 dark:bg-black/25 backdrop-blur-xl text-gray-600 dark:text-gray-400 shadow-lg dark:shadow-black/40 transition-colors duration-300">
       {/* HEADER */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b bg-white">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/30">
         <img
           src={targetUser?.photos?.[0] || DEFAULT_PHOTO}
           loading="lazy"
@@ -214,7 +214,7 @@ const Chat = () => {
           className="w-10 h-10 rounded-full object-cover"
         />
 
-        <span className="font-medium text-gray-800">
+        <span className="font-medium text-gray-800 dark:text-gray-200">
           {targetUser
             ? `${targetUser.firstName} ${targetUser?.lastName}`
             : "Chat"}
@@ -222,12 +222,12 @@ const Chat = () => {
       </div>
 
       {/* MESSAGES */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1 bg-gray-50">
+      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1 bg-gray-50 dark:bg-transparent">
         {hasMore && messages.length > 0 && (
           <div className="flex justify-center">
             <button
               onClick={fetchMore}
-              className="text-sm px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-100 transition"
+              className="text-sm px-4 py-1 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-100 dark:hover:bg-white/5 dark:text-gray-400 transition"
             >
               Load older messages
             </button>
@@ -235,11 +235,13 @@ const Chat = () => {
         )}
 
         {loading && (
-          <p className="text-center text-xs text-gray-400">Loading...</p>
+          <p className="text-center text-xs text-gray-400 dark:text-gray-600">
+            Loading...
+          </p>
         )}
 
         {messages.length === 0 && !loading && (
-          <div className="flex flex-col justify-center items-center h-full text-gray-400 ">
+          <div className="flex flex-col justify-center items-center h-full text-gray-400">
             <p className="">No messages yet</p>
             <p className="mt-1">Start the conversation</p>
           </div>
@@ -255,10 +257,10 @@ const Chat = () => {
             >
               <div className="flex flex-col max-w-[70%]">
                 <div
-                  className={`px-2 py-2 rounded-2xl text-sm shadow break-words whitespace-pre-wrap ${
+                  className={`px-2 py-2 rounded-2xl text-sm shadow break-words whitespace-pre-wrap transition-all duration-300 ${
                     isMe
-                      ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white"
-                      : "bg-white border"
+                      ? "bg-gradient-to-r from-pink-500 to-rose-500 dark:from-pink-800 dark:to-rose-800 text-white"
+                      : "bg-gray-50 dark:bg-black/50 dark:text-gray-200 border border-gray-200 dark:border-white/10"
                   }`}
                 >
                   <p>
@@ -274,14 +276,16 @@ const Chat = () => {
         })}
 
         {isTyping && (
-          <p className="text-sm text-gray-400 px-2 pb-2">typing...</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 px-2 pb-2">
+            typing...
+          </p>
         )}
 
         <div ref={bottomRef} />
       </div>
 
       {/* INPUT */}
-      <div className="flex items-center gap-2 p-3 border-t bg-white">
+      <div className="flex items-center gap-2 p-3 border-t border-gray-200 dark:border-white/10 bg-white dark:bg-black/30">
         <input
           value={newMessage}
           onChange={(e) => {
@@ -295,12 +299,12 @@ const Chat = () => {
             }
           }}
           placeholder="Type a message..."
-          className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none"
+          className="flex-1 bg-gray-100 dark:bg-white/10 rounded-full px-4 py-2 text-sm focus:outline-none"
         />
 
         <button
           onClick={sendMessage}
-          className="w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow hover:scale-105 transition"
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-rose-500 dark:from-pink-700 dark:to-rose-700 text-white shadow hover:scale-105 transition-transform duration-200"
         >
           ➤
         </button>

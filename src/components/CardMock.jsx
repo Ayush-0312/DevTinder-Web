@@ -8,14 +8,15 @@ const CardMock = ({ user, active }) => {
     <motion.div
       animate={{
         scale: active ? 1 : 0.92,
-        opacity: active ? 1 : 0.5,
+        opacity: active ? 1 : 0.4,
+        y: active ? 0 : 10,
       }}
       transition={{
         type: "spring",
         stiffness: 120,
         damping: 18,
       }}
-      className="relative w-[300px] h-[420px] rounded-2xl overflow-hidden bg-gray-900 border border-gray-800 shadow-xl"
+      className="relative w-[300px] h-[420px] rounded-2xl overflow-hidden bg-gray-900/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 transition-colors duration-300"
     >
       {/* IMAGE */}
       <img
@@ -27,7 +28,7 @@ const CardMock = ({ user, active }) => {
       />
 
       {/* OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
       {/* CONTENT */}
       <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -35,7 +36,9 @@ const CardMock = ({ user, active }) => {
 
         <p className="text-sm text-gray-300">{role}</p>
 
-        <p className="text-xs mt-1 opacity-80">{skills.join(" • ")}</p>
+        <p className="text-xs mt-1 text-gray-300 opacity-80">
+          {skills.join(" • ")}
+        </p>
       </div>
     </motion.div>
   );

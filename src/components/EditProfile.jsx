@@ -92,17 +92,19 @@ const EditProfile = ({ user }) => {
 
   if (!user)
     return (
-      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-800">
+      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-800 dark:text-gray-200">
         Loading...
       </div>
     );
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start overflow-x-hidden">
+      <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start overflow-x-hidden">
         {/* FORM */}
-        <div className="w-full bg-white border border-gray-200 text-gray-600 rounded-2xl shadow-lg p-6 space-y-4">
-          <h2 className="text-xl font-semibold text-gray-800">Edit Profile</h2>
+        <div className="w-full bg-white dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/5 text-gray-700 dark:text-gray-300 shadow-lg dark:shadow-black/40 transition-colors duration-300 rounded-2xl p-6 space-y-4">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            Edit Profile
+          </h2>
 
           {/* Name */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -189,7 +191,7 @@ const EditProfile = ({ user }) => {
                   alt="preview"
                   loading="lazy"
                   decoding="async"
-                  className="w-14 h-14 rounded-lg object-cover border"
+                  className="w-14 h-14 rounded-lg object-cover border border-gray-200 dark:border-white/10"
                 />
                 <input
                   value={photo}
@@ -199,7 +201,7 @@ const EditProfile = ({ user }) => {
                 />
                 <button
                   onClick={() => removePhoto(i)}
-                  className="w-9 h-9 flex items-center justify-center bg-red-500 text-white rounded-lg shrink-0"
+                  className="w-9 h-9 flex items-center justify-center bg-red-500 hover:bg-red-600 dark:bg-red-800/80 dark:hover:bg-red-800 text-gray-50 transition-colors duration-300 rounded-lg shrink-0"
                 >
                   ✕
                 </button>
@@ -207,7 +209,7 @@ const EditProfile = ({ user }) => {
             ))}
 
             {form.photos.length < 5 && (
-              <button onClick={addPhoto} className="text-sm text-pink-600">
+              <button onClick={addPhoto} className="text-sm text-rose-500">
                 + Add photo
               </button>
             )}
@@ -219,7 +221,7 @@ const EditProfile = ({ user }) => {
 
           <button
             onClick={saveProfile}
-            className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-2 rounded-lg"
+            className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:opacity-90 dark:from-pink-800 dark:to-rose-800 text-gray-50 shadow-md shadow-pink-700/20 py-2 rounded-lg transition-all duration-300"
           >
             Save Profile
           </button>

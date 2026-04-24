@@ -30,15 +30,21 @@ const Feed = () => {
 
   if (!feed)
     return (
-      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-600">
-        Loading...
+      <div className="flex justify-center mt-20 text-xl font-semibold text-gray-600 dark:text-gray-400">
+        Finding developers for you...
       </div>
     );
 
   if (feed.length === 0)
     return (
-      <div className="flex justify-center mt-20 text-gray-600 text-2xl font-semibold">
-        No new developers found
+      <div className="flex flex-col justify-center items-center py-20 text-center">
+        <h1 className="text-2xl font-semibold text-gray-600 dark:text-gray-400">
+          No new developers found
+        </h1>
+
+        <p className="text-gray-500 dark:text-gray-400 mt-4">
+          Check back later or explore connections.
+        </p>
       </div>
     );
 

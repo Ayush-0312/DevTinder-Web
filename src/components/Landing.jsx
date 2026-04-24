@@ -29,7 +29,7 @@ const Landing = () => {
   const [active, setActive] = useState(1);
 
   return (
-    <div className="min-h-screen text-rose-500 flex flex-col">
+    <div className="min-h-screen text-rose-500 flex flex-col transition-colors duration-300">
       {/* HERO */}
       <section className="max-w-5xl mx-auto px-6 pt-16 text-center">
         <motion.h1
@@ -40,14 +40,16 @@ const Landing = () => {
         >
           Meet developers
           <br />
-          <span className="text-gray-500">worth building with.</span>
+          <span className="text-gray-500 dark:text-gray-400">
+            worth building with.
+          </span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="mt-6 text-gray-400 max-w-lg mx-auto"
+          className="mt-6 text-gray-500 dark:text-gray-400 max-w-lg mx-auto"
         >
           No noise. No endless scrolling. Just real developers building real
           things.
@@ -57,11 +59,11 @@ const Landing = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-10"
+          className="mt-12"
         >
           <Link
             to="/login"
-            className="px-6 py-3 rounded-lg bg-white text-black font-medium hover:shadow-md transition"
+            className="px-6 py-3 rounded-lg bg-gray-800 text-white hover:opacity-90 dark:bg-gray-50 dark:text-black dark:hover:opacity-90 font-medium hover:shadow-md transition"
           >
             Start exploring
           </Link>
@@ -98,7 +100,7 @@ const Landing = () => {
       <section className="pt-16 text-center">
         <h2 className="text-3xl font-semibold">Why DevTinder?</h2>
 
-        <ul className="mt-8 text-gray-600">
+        <ul className="mt-8 text-gray-600 dark:text-gray-400">
           <li>💠 Discover developers with similar interests</li>
           <li>💠 Build real-world projects together</li>
           <li>💠 Grow your network and skills</li>
@@ -107,7 +109,7 @@ const Landing = () => {
 
       {/* SUBTEXT */}
       <section className="mt-20 text-center px-6">
-        <p className="text-gray-500 text-2xl font-semibold">
+        <p className="text-gray-500 dark:text-gray-300 text-2xl font-semibold">
           Built for real connections
         </p>
       </section>
@@ -116,7 +118,7 @@ const Landing = () => {
       <section className="mt-16 mb-20 text-center">
         <Link
           to="/login"
-          className="px-8 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium hover:shadow-md transition"
+          className="px-8 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 dark:from-pink-700 dark:to-rose-700 text-gray-50 hover:opacity-90 font-medium shadow-md shadow-pink-700/20 transition"
         >
           Join DevTinder
         </Link>
