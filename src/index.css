@@ -89,5 +89,10 @@ details summary::-webkit-details-marker {
 
 .form-input:focus {
   border-color: #ec4899;
-  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+  box-shadow: inset 0 0 0 2px rgba(236, 72, 153, 0.2);
+}
+
+.dark .form-input:focus {
+  border-color: #be185d;
+  box-shadow: inset 0 0 0 2px rgba(190, 24, 93, 0.4);
 }

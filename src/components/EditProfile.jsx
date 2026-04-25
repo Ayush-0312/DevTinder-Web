@@ -133,12 +133,23 @@ const EditProfile = ({ user }) => {
             <select
               value={form.gender}
               onChange={(e) => updateField("gender", e.target.value)}
-              className="form-input"
+              className="form-input bg-gray-50 dark:bg-white/5"
             >
-              <option value="">Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="others">Others</option>
+              <option
+                className="bg-white dark:bg-black/90 text-black dark:text-white"
+                value=""
+              >
+                Gender
+              </option>
+              <option className="bg-white dark:bg-black/90" value="male">
+                Male
+              </option>
+              <option className="bg-white dark:bg-black/90" value="female">
+                Female
+              </option>
+              <option className="bg-white dark:bg-black/90" value="others">
+                Others
+              </option>
             </select>
           </div>
 
@@ -221,7 +232,7 @@ const EditProfile = ({ user }) => {
 
           <button
             onClick={saveProfile}
-            className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:opacity-90 dark:from-pink-800 dark:to-rose-800 text-gray-50 shadow-md shadow-pink-700/20 py-2 rounded-lg transition-all duration-300"
+            className="w-full bg-gradient-to-r from-pink-500 to-rose-500 dark:from-pink-800 dark:to-rose-800 hover:animate-pulse text-gray-50 shadow-md shadow-pink-700/20 py-2 rounded-lg transition-all duration-300"
           >
             Save Profile
           </button>

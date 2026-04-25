@@ -17,7 +17,30 @@ const Chat = lazy(() => import("./components/Chat"));
 function App() {
   return (
     <Provider store={appStore}>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className:
+            "bg-gray-50 text-gray-800 dark:bg-black/40 backdrop-blur-xl dark:text-gray-200 border border-gray-200 dark:border-white/10",
+          style: {
+            borderRadius: "10px",
+            padding: "12px 16px",
+          },
+          success: {
+            iconTheme: {
+              primary: "#22c55e",
+              secondary: "#fff",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "#fff",
+            },
+          },
+        }}
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Body />}>
