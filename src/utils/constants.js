@@ -11,3 +11,9 @@ export const PORTFOLIO = "https://www.theayushgupta.in/";
 
 export const DEFAULT_PHOTO =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYgizZqMv5a7Qo5ZXvwKCHeRsslPrArnCZ4g&s";
+
+export const LOGO =
+  "https://res.cloudinary.com/dgltfvtmm/image/upload/v1777906514/logo_k2p1w4.avif";
+
+export const DEVTINDER =
+  "https://res.cloudinary.com/dgltfvtmm/image/upload/v1777906513/DevTinder_q10bk7.avif";

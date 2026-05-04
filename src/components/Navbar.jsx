@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { BASE_URL, DEFAULT_PHOTO } from "../utils/constants";
+import { BASE_URL, DEFAULT_PHOTO, LOGO } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { removeFeed } from "../utils/feedSlice";
 import { removeConnections } from "../utils/connectionSlice";
 import { clearRequests } from "../utils/requestSlice";
 import { useCallback, useState } from "react";
-import logo from "/logo.png";
 import { LuSun } from "react-icons/lu";
 import { PiMoon } from "react-icons/pi";
 
@@ -70,7 +69,7 @@ const Navbar = () => {
           className="text-lg font-bold flex items-center gap-1 tracking-tight text-pink-600 group"
         >
           <img
-            src={logo}
+            src={LOGO}
             alt="logo"
             loading="lazy"
             decoding="async"
