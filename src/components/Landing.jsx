@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import CardMock from "./CardMock";
-import Footer from "./Footer";
+
+const CardMock = lazy(() => import("./CardMock"));
+const Footer = lazy(() => import("./Footer"));
 
 const users = [
   {
@@ -32,42 +33,27 @@ const Landing = () => {
     <div className="min-h-screen text-rose-500 flex flex-col transition-colors duration-300">
       {/* HERO */}
       <section className="max-w-5xl mx-auto px-6 pt-16 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-5xl md:text-7xl font-semibold tracking-tight leading-tight"
-        >
+        <h1 className="text-5xl md:text-7xl font-semibold tracking-tight leading-tight">
           Meet developers
           <br />
           <span className="text-gray-500 dark:text-gray-400">
             worth building with.
           </span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="mt-6 text-gray-500 dark:text-gray-400 max-w-lg mx-auto"
-        >
+        <p className="mt-6 text-gray-500 dark:text-gray-400 max-w-lg mx-auto">
           No noise. No endless scrolling. Just real developers building real
           things.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="mt-12"
-        >
+        <div className="mt-12">
           <Link
             to="/login"
             className="px-6 py-3 rounded-lg bg-gray-800 text-white hover:opacity-90 dark:bg-gray-50 dark:text-black dark:hover:opacity-90 font-medium hover:shadow-md transition"
           >
             Start exploring
           </Link>
-        </motion.div>
+        </div>
       </section>
 
       {/* CARD STACK */}

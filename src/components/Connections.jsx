@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { lazy, useCallback, useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionSlice";
-import ProfileModal from "./ProfileModal";
 import { AnimatePresence } from "motion/react";
 import ConnectionCard from "./ConnectionCard";
+
+const ProfileModal = lazy(() => import("./ProfileModal"));
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);

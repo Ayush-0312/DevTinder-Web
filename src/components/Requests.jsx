@@ -1,12 +1,13 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import { useCallback, useEffect, useState } from "react";
+import { lazy, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequests, removeRequest } from "../utils/requestSlice";
 import { AnimatePresence } from "motion/react";
-import ProfileModal from "./ProfileModal";
 import toast from "react-hot-toast";
 import RequestCard from "./RequestCard";
+
+const ProfileModal = lazy(() => import("./ProfileModal"));
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
