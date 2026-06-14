@@ -4,7 +4,6 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
-import { AnimatePresence } from "motion/react";
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -49,11 +48,9 @@ const Feed = () => {
     );
 
   return (
-    <AnimatePresence mode="wait">
-      <div className="flex justify-center pt-16 sm:pt-0">
-        <UserCard key={feed[0]._id} user={feed[0]} />
-      </div>
-    </AnimatePresence>
+    <div className="flex justify-center pt-16 sm:pt-0">
+      <UserCard key={feed[0]._id} user={feed[0]} />
+    </div>
   );
 };
 
