@@ -6,6 +6,7 @@ import { addRequests, removeRequest } from "../utils/requestSlice";
 import { AnimatePresence } from "motion/react";
 import toast from "react-hot-toast";
 import RequestCard from "./RequestCard";
+import { removeConnections } from "../utils/connectionSlice";
 
 const ProfileModal = lazy(() => import("./ProfileModal"));
 
@@ -27,12 +28,13 @@ const Requests = () => {
         dispatch(removeRequest(_id));
 
         if (status === "accepted") {
+          dispatch(removeConnections());
           toast.success("Connection accepted");
         } else {
-          toast.error("Request rejected");
+          toast.success("Request rejected");
         }
       } catch (err) {
-        toast.error("Something went wrong");
+        toast.error(err?.response?.data || "Something went wrong");
         console.log(err.message);
       }
     },
@@ -40,6 +42,8 @@ const Requests = () => {
   );
 
   const fetchRequest = useCallback(async () => {
+    if (requests !== null) return;
+
     try {
       const res = await axios.get(`${BASE_URL}/user/requests/received`, {
         withCredentials: true,
@@ -49,7 +53,7 @@ const Requests = () => {
     } catch (err) {
       console.log(err.message);
     }
-  }, [dispatch]);
+  }, [dispatch, requests]);
 
   useEffect(() => {
     fetchRequest();

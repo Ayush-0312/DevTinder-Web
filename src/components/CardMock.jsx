@@ -24,7 +24,8 @@ const CardMock = ({ user, active }) => {
         alt={name}
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover"
+        width="320"
+        height="400"
       />
 
       {/* OVERLAY */}

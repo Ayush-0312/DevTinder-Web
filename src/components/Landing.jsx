@@ -1,28 +1,31 @@
-import { lazy, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-
-const CardMock = lazy(() => import("./CardMock"));
-const Footer = lazy(() => import("./Footer"));
+import CardMock from "./CardMock";
+import Footer from "./Footer";
 
 const users = [
   {
     name: "Ananya",
     role: "Frontend Engineer",
     skills: ["Next.js", "UI", "AI"],
-    photo: "https://images.unsplash.com/photo-1527980965255-d3b416303d12",
+    photo:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=70&auto=format",
   },
   {
     name: "Rahul",
     role: "Backend Engineer",
     skills: ["Node", "System Design"],
-    photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+    photo:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=70&auto=format",
   },
   {
     name: "Ayush",
     role: "Full Stack Developer",
     skills: ["React", "MongoDB"],
-    photo: "https://images.unsplash.com/photo-1502767089025-6572583495b4",
+    photo:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=70&auto=format",
   },
 ];
 

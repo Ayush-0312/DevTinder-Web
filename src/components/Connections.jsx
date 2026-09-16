@@ -1,5 +1,5 @@
 import axios from "axios";
-import { lazy, useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionSlice";
@@ -15,6 +15,8 @@ const Connections = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchConnections = useCallback(async () => {
+    if (connections !== null) return;
+
     try {
       const res = await axios.get(BASE_URL + "/user/connections", {
         withCredentials: true,
@@ -24,7 +26,7 @@ const Connections = () => {
     } catch (err) {
       console.log(err.message);
     }
-  }, [dispatch]);
+  }, [connections, dispatch]);
 
   useEffect(() => {
     fetchConnections();
@@ -72,10 +74,12 @@ const Connections = () => {
 
       <AnimatePresence>
         {selectedUser && (
-          <ProfileModal
-            user={selectedUser}
-            onClose={() => setSelectedUser(null)}
-          />
+          <Suspense fallback={null}>
+            <ProfileModal
+              user={selectedUser}
+              onClose={() => setSelectedUser(null)}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
     </div>

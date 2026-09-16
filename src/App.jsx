@@ -41,66 +41,27 @@ function App() {
           },
         }}
       />
+
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Body />}>
-            <Route path="/" element={<Landing />} />
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<Body />}>
+              <Route index element={<Landing />} />
 
-            <Route
-              path="/feed"
-              element={
-                <Suspense fallback={<Loader />}>
-                  <Feed />
-                </Suspense>
-              }
-            />
+              <Route path="feed" element={<Feed />} />
 
-            <Route
-              path="/login"
-              element={
-                <Suspense fallback={<Loader />}>
-                  <Login />
-                </Suspense>
-              }
-            />
+              <Route path="login" element={<Login />} />
 
-            <Route
-              path="/profile"
-              element={
-                <Suspense fallback={<Loader />}>
-                  <Profile />
-                </Suspense>
-              }
-            />
+              <Route path="profile" element={<Profile />} />
 
-            <Route
-              path="/connections"
-              element={
-                <Suspense fallback={<Loader />}>
-                  <Connections />
-                </Suspense>
-              }
-            />
+              <Route path="connections" element={<Connections />} />
 
-            <Route
-              path="/requests"
-              element={
-                <Suspense fallback={<Loader />}>
-                  <Requests />
-                </Suspense>
-              }
-            />
+              <Route path="requests" element={<Requests />} />
 
-            <Route
-              path="/chat/:targetUserId"
-              element={
-                <Suspense fallback={<Loader />}>
-                  <Chat />
-                </Suspense>
-              }
-            />
-          </Route>
-        </Routes>
+              <Route path="chat/:targetUserId" element={<Chat />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </Provider>
   );

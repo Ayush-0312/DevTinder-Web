@@ -4,8 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useCallback, useEffect, useState } from "react";
-import Loader from "./Loader";
+import { useEffect } from "react";
 
 const publicRoutes = ["/", "/login"];
 
@@ -13,47 +12,49 @@ const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
   const userData = useSelector((store) => store.user);
 
-  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (userData || publicRoutes.includes(location.pathname)) return;
 
-  const fetchUser = useCallback(async () => {
-    if (userData) {
-      setLoading(false);
-      return;
-    }
+    let cancelled = false;
 
-    try {
-      const res = await axios.get(BASE_URL + "/profile/view", {
-        withCredentials: true,
-      });
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/profile/view`, {
+          withCredentials: true,
+        });
 
-      dispatch(addUser(res.data));
-    } catch (err) {
-      if (err.response?.status === 401) {
-        if (!publicRoutes.includes(location.pathname)) {
-          navigate("/login");
+        if (!cancelled) {
+          dispatch(addUser(res.data));
+        }
+      } catch (err) {
+        if (
+          !cancelled &&
+          err.response?.status === 401 &&
+          !publicRoutes.includes(location.pathname)
+        ) {
+          navigate("/login", { replace: true });
         }
       }
-    } finally {
-      setLoading(false);
-    }
-  }, [userData, location.pathname, navigate, dispatch]);
+    };
 
-  useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dispatch, location.pathname, navigate, userData]);
 
   useEffect(() => {
     if (userData && location.pathname === "/login") {
-      navigate("/feed");
+      navigate("/feed", { replace: true });
     }
   }, [userData, location.pathname, navigate]);
 
-  if (loading) return <Loader />;
-
   return (
-    <div className="app-bg dark:bg-gray-950 transition-colors duration-300">
+    <div className="app-bg min-h-screen dark:bg-gray-950 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-6xl mx-auto sm:px-5 px-0 py-8">
