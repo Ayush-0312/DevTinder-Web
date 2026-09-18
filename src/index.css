@@ -38,19 +38,16 @@ body {
   --radius-xl: 24px;
 }
 
-// APP BACKGROUND
+/* APP BACKGROUND */
 .app-bg {
   position: relative;
   isolation: isolate;
   min-height: 100vh;
   overflow: hidden;
-
-  background: #f8f5f7;
+  background: #f8f3f6;
 }
 
-/* Both themes live here.
-   We cross-fade them instead of transitioning gradients. */
-
+/* Theme layers */
 .app-bg::before,
 .app-bg::after {
   content: "";
@@ -60,71 +57,80 @@ body {
   pointer-events: none;
 
   transition:
-    opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 800ms cubic-bezier(0.4, 0, 0.2, 1),
     transform 1000ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* LIGHT MODE */
 .app-bg::before {
   opacity: 1;
 
   background:
     radial-gradient(
-      ellipse 55% 45% at 8% 8%,
-      rgba(244, 114, 182, 0.3) 0%,
-      rgba(244, 114, 182, 0.13) 38%,
-      transparent 72%
+      ellipse 65% 55% at 18% 18%,
+      rgba(236, 72, 153, 0.28) 0%,
+      rgba(236, 72, 153, 0.16) 32%,
+      rgba(236, 72, 153, 0.05) 55%,
+      transparent 78%
     ),
     radial-gradient(
-      ellipse 45% 40% at 94% 18%,
-      rgba(251, 113, 133, 0.25) 0%,
-      rgba(251, 113, 133, 0.1) 42%,
-      transparent 75%
+      ellipse 58% 52% at 88% 42%,
+      rgba(244, 63, 94, 0.22) 0%,
+      rgba(244, 63, 94, 0.12) 34%,
+      rgba(244, 63, 94, 0.04) 58%,
+      transparent 80%
     ),
     radial-gradient(
-      ellipse 50% 42% at 58% 100%,
-      rgba(192, 132, 252, 0.2) 0%,
-      rgba(192, 132, 252, 0.07) 45%,
-      transparent 75%
+      ellipse 65% 48% at 50% 92%,
+      rgba(168, 85, 247, 0.18) 0%,
+      rgba(168, 85, 247, 0.09) 38%,
+      rgba(168, 85, 247, 0.03) 58%,
+      transparent 78%
     ),
     radial-gradient(
-      ellipse 35% 30% at 100% 82%,
-      rgba(129, 140, 248, 0.12) 0%,
-      transparent 70%
+      circle at 50% 45%,
+      rgba(244, 114, 182, 0.1) 0%,
+      transparent 42%
     ),
-    linear-gradient(135deg, #fff9fc 0%, #f9f6f8 48%, #fff8f8 100%);
+    linear-gradient(135deg, #fff7fb 0%, #faf4f7 45%, #fff6f7 100%);
 }
 
-// DARK MODE
+/* DARK MODE */
 .app-bg::after {
   opacity: 0;
+  transform: scale(1.03);
 
   background:
     radial-gradient(
-      ellipse 60% 48% at 5% 5%,
-      rgba(190, 24, 93, 0.38) 0%,
-      rgba(157, 23, 77, 0.17) 38%,
-      transparent 72%
+      ellipse 65% 55% at 15% 12%,
+      rgba(190, 24, 93, 0.4) 0%,
+      rgba(190, 24, 93, 0.22) 30%,
+      rgba(190, 24, 93, 0.07) 55%,
+      transparent 78%
     ),
     radial-gradient(
-      ellipse 48% 42% at 95% 18%,
-      rgba(225, 29, 72, 0.26) 0%,
-      rgba(159, 18, 57, 0.1) 42%,
-      transparent 75%
+      ellipse 58% 52% at 90% 40%,
+      rgba(225, 29, 72, 0.28) 0%,
+      rgba(225, 29, 72, 0.14) 34%,
+      rgba(225, 29, 72, 0.04) 58%,
+      transparent 80%
     ),
     radial-gradient(
-      ellipse 55% 45% at 58% 100%,
-      rgba(126, 34, 206, 0.22) 0%,
-      rgba(88, 28, 135, 0.08) 45%,
-      transparent 75%
+      ellipse 65% 48% at 50% 94%,
+      rgba(126, 34, 206, 0.25) 0%,
+      rgba(126, 34, 206, 0.12) 38%,
+      rgba(126, 34, 206, 0.04) 58%,
+      transparent 78%
     ),
     radial-gradient(
-      ellipse 35% 30% at 100% 82%,
-      rgba(79, 70, 229, 0.15) 0%,
-      transparent 70%
+      circle at 50% 45%,
+      rgba(190, 24, 93, 0.08) 0%,
+      transparent 42%
     ),
-    linear-gradient(135deg, #130b10 0%, #09090b 48%, #12090d 100%);
+    linear-gradient(135deg, #130a10 0%, #09090b 45%, #12090d 100%);
 }
 
+/* THEME TRANSITION */
 .dark .app-bg::before {
   opacity: 0;
   transform: scale(1.03);

@@ -8,24 +8,24 @@ import { LANDING_IMAGES } from "../utils/constants";
 
 const users = [
   {
-    id: "ananya",
-    name: "Ananya",
-    role: "Frontend Engineer",
-    skills: ["Next.js", "UI", "AI"],
+    id: "divya",
+    name: "Divya",
+    role: "Frontend Developer",
+    skills: [""],
     photo: LANDING_IMAGES.female1,
   },
   {
-    id: "rahul",
-    name: "Rahul",
-    role: "Backend Engineer",
-    skills: ["Node", "System Design"],
+    id: "aradhya",
+    name: "Aradhya",
+    role: "Software Developer",
+    skills: [""],
     photo: LANDING_IMAGES.female2,
   },
   {
-    id: "ayush",
-    name: "Ayush",
-    role: "Full Stack Developer",
-    skills: ["React", "MongoDB"],
+    id: "raj",
+    name: "Raj",
+    role: "Backend Developer",
+    skills: [""],
     photo: LANDING_IMAGES.male1,
   },
 ];
