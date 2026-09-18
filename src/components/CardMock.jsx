@@ -22,7 +22,7 @@ const CardMock = ({ user, active }) => {
       <img
         src={photo}
         alt={name}
-        loading="lazy"
+        loading={active ? "eager" : "lazy"}
         decoding="async"
         width="320"
         height="400"

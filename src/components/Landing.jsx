@@ -4,28 +4,29 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import CardMock from "./CardMock";
 import Footer from "./Footer";
+import { LANDING_IMAGES } from "../utils/constants";
 
 const users = [
   {
+    id: "ananya",
     name: "Ananya",
     role: "Frontend Engineer",
     skills: ["Next.js", "UI", "AI"],
-    photo:
-      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=70&auto=format",
+    photo: LANDING_IMAGES.female1,
   },
   {
+    id: "rahul",
     name: "Rahul",
     role: "Backend Engineer",
     skills: ["Node", "System Design"],
-    photo:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=70&auto=format",
+    photo: LANDING_IMAGES.female2,
   },
   {
+    id: "ayush",
     name: "Ayush",
     role: "Full Stack Developer",
     skills: ["React", "MongoDB"],
-    photo:
-      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=70&auto=format",
+    photo: LANDING_IMAGES.male1,
   },
 ];
 
@@ -66,7 +67,7 @@ const Landing = () => {
 
           return (
             <motion.div
-              key={i}
+              key={user.id}
               onClick={() => setActive(i)}
               animate={{
                 x: offset * 220,

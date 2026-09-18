@@ -54,7 +54,7 @@ const Body = () => {
   }, [userData, location.pathname, navigate]);
 
   return (
-    <div className="app-bg min-h-screen dark:bg-gray-950 transition-colors duration-300">
+    <div className="app-bg min-h-screen transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-6xl mx-auto sm:px-5 px-0 py-8">

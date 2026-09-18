@@ -17,3 +17,14 @@ export const LOGO =
 
 export const DEVTINDER =
   "https://res.cloudinary.com/dgltfvtmm/image/upload/v1777906513/DevTinder_q10bk7.avif";
+
+export const LANDING_IMAGES = {
+  female1:
+    "https://res.cloudinary.com/dgltfvtmm/image/upload/f_auto,q_auto,w_600,h_840,c_fill/female2_ykpcty.png",
+
+  female2:
+    "https://res.cloudinary.com/dgltfvtmm/image/upload/f_auto,q_auto,w_600,h_840,c_fill/female1_ue52xz.png",
+
+  male1:
+    "https://res.cloudinary.com/dgltfvtmm/image/upload/f_auto,q_auto,w_600,h_840,c_fill/male1_t3lqwn.png",
+};
