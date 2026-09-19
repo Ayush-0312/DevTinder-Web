@@ -91,7 +91,7 @@ const Requests = () => {
           No requests yet
         </h1>
 
-        <p className="text-gray-500 dark:text-gray-400 mt-2">
+        <p className="text-gray-500 dark:text-gray-400 mt-4 mx-2">
           When someone sends you a request, it will appear here.
         </p>
       </div>

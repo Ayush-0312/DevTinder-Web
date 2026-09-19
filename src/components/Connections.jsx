@@ -50,7 +50,7 @@ const Connections = () => {
           No connections yet
         </h1>
 
-        <p className="text-gray-500 dark:text-gray-400 mt-4">
+        <p className="text-gray-500 dark:text-gray-400 mt-4 mx-2">
           Start connecting with developers to see them here.
         </p>
       </div>

@@ -41,7 +41,7 @@ const Feed = () => {
           No new developers found
         </h1>
 
-        <p className="text-gray-500 dark:text-gray-400 mt-4">
+        <p className="text-gray-500 dark:text-gray-400 mt-4 mx-2">
           Check back later or explore connections.
         </p>
       </div>

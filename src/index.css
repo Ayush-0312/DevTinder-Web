@@ -43,7 +43,6 @@ body {
   position: relative;
   isolation: isolate;
   min-height: 100vh;
-  overflow: hidden;
   background: #f8f3f6;
 }
 
@@ -139,11 +138,6 @@ body {
 .dark .app-bg::after {
   opacity: 1;
   transform: scale(1);
-}
-
-.app-bg > * {
-  position: relative;
-  z-index: 1;
 }
 
 details summary::-webkit-details-marker {
