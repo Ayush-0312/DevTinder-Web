@@ -6,6 +6,7 @@ import Landing from "./components/Landing";
 import { Toaster } from "react-hot-toast";
 import { lazy, Suspense } from "react";
 import Loader from "./components/Loader";
+import { Analytics } from "@vercel/analytics/react";
 
 const Feed = lazy(() => import("./components/Feed"));
 const Login = lazy(() => import("./components/Login"));
@@ -63,6 +64,8 @@ function App() {
           </Routes>
         </Suspense>
       </BrowserRouter>
+
+      <Analytics />
     </Provider>
   );
 }

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.7.0",
+    "@vercel/analytics": "^2.0.1",
     "axios": "^1.9.0",
     "motion": "^12.35.2",
     "react": "^19.2.3",
