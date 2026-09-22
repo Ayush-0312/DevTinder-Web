@@ -1,6 +1,6 @@
 # DevTinder - Frontend
 
-## live - http://devtinder.theayushgupta.in/login
+## live - http://devtinder.theayushgupta.in/
 
 ## Day 1
 
